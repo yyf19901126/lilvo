@@ -240,6 +240,10 @@ footer p{max-width:520px}
 .bcard div{padding:18px 20px 22px}
 @media (max-width:900px){.built{grid-template-columns:1fr}}
 .bcard .d{font-size:13px;font-weight:800;color:var(--acc)}.bcard h3{font-size:19px;margin-top:4px}.bcard p{color:var(--muted);font-size:15px;margin-top:6px}
+.games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.games-grid .shot video,.games-grid .shot img{width:100%;aspect-ratio:3/4;object-fit:cover;background:#000}
+.games-grid figcaption b{color:var(--text)}
+@media (max-width:900px){.games-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -248,6 +252,7 @@ footer p{max-width:520px}
   <div class="wrap">
     <a class="brand" href="#top"><img src="images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
     <ul>
+      <li><a href="#games">Games</a></li>
       <li><a href="#device">Device</a></li>
       <li><a href="#system">System</a></li>
       <li><a href="#themes">Themes</a></li>
@@ -295,6 +300,20 @@ footer p{max-width:520px}
       <figure style="margin:0"><div class="shot"><img src="images/photos/proto-settings.jpg" loading="lazy" alt="Prototype held in hand, both screens on, settings menu visible"><span class="tag real">Real</span></div><figcaption>First full prototype: board, screens and hinge in one shell.</figcaption></figure>
       <figure style="margin:0"><div class="shot"><img src="images/photos/board-hand.jpg" loading="lazy" alt="The main board held between two fingers"><span class="tag real">Real</span></div><figcaption>The main board. Everything has to fit under one screen.</figcaption></figure>
     </div>
+  </div>
+</section>
+
+<section id="games">
+  <div class="wrap">
+    <div class="label">Real games, real hardware</div>
+    <h2>Yes, it plays DS games. And GBA. And more.</h2>
+    <p class="lead">Filmed on my prototype with a phone; the clips are only trimmed. DS games run through DraStic on both screens; GBA, Game Boy, PlayStation and the other single-screen systems run on open-source cores, with a quick panel on the bottom screen for saving, loading and fast-forward.</p>
+    <div class="games-grid">
+      <figure style="margin:0"><div class="shot"><video src="images/photos/clip-nds-game.mp4" poster="images/photos/clip-nds-game_poster.jpg" muted loop playsinline autoplay preload="none" aria-label="A DS game running on the prototype"></video><span class="tag real">Real · DS</span></div><figcaption><b>DS on two screens.</b> From the title screen into the game, then loading a save slot. Pokémon White 2.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><video src="images/photos/clip-gba-game.mp4" poster="images/photos/clip-gba-game_poster.jpg" muted loop playsinline autoplay preload="none" aria-label="A GBA game with the bottom-screen quick panel"></video><span class="tag real">Real · GBA</span></div><figcaption><b>GBA with a quick panel.</b> Tap Save, Load or hold 2× on the bottom screen. Super Robot Wars J.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><img src="images/photos/proto-nds-game.jpg" loading="lazy" alt="A DS game's title screen on both screens of the prototype"><span class="tag real">Real · DS</span></div><figcaption><b>Both screens, full colour.</b> A DS title screen on the prototype in the dark.</figcaption></figure>
+    </div>
+    <p class="muted" style="font-size:14px;margin-top:18px">No games come with the device. Game names and artwork shown belong to their owners.</p>
   </div>
 </section>
 
