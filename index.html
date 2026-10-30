@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E0F12">
 <title>lilvo DS Micro — a tiny dual-screen handheld, built in the open</title>
 <meta name="description" content="Notes and photos from building lilvo DS Micro, a hobby clamshell handheld with two screens, 85 × 46 × 18 mm. Prototype stage, working towards production.">
 <meta property="og:title" content="lilvo DS Micro">
@@ -249,6 +250,65 @@ footer p{max-width:520px}
 .thanks b{display:block;font-size:22px;color:var(--text)}
 .thanks p{color:var(--text2);margin-top:10px;max-width:440px}
 .thanks .sig{color:var(--acc);font-weight:800}
+
+/* ---- mobile ---- */
+section,header{scroll-margin-top:60px}
+html{-webkit-text-size-adjust:100%}
+a,button,label,summary{-webkit-tap-highlight-color:transparent}
+.menu-btn{display:none;margin-left:auto;width:44px;height:44px;border:0;background:none;padding:12px 10px;cursor:pointer}
+.menu-btn span{display:block;height:2px;background:var(--text);border-radius:2px;margin:5px 0;transition:transform .2s,opacity .2s}
+nav.open .menu-btn span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+nav.open .menu-btn span:nth-child(2){opacity:0}
+nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:900px){
+  .menu-btn{display:block}
+  nav ul{display:none;position:absolute;left:0;right:0;top:60px;flex-direction:column;gap:0;margin:0;padding:6px 0 14px;background:rgba(14,15,18,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+  nav.open ul{display:flex}
+  nav ul a{display:block;padding:13px 24px;font-size:17px;color:var(--text)}
+  .entry:hover{transform:none}
+}
+@media (hover:none){.entry:hover,.teaser:hover,.bcard:hover{transform:none}}
+
+@media (max-width:900px){
+  /* hero: short intro, then the size photo, then the headline */
+  .about{font-size:14px;padding:10px 14px;margin-bottom:22px}
+  .hero{padding:28px 0 56px}
+  .hero .hero-grid{display:flex;flex-direction:column;gap:22px}
+  .hero .hero-shot{order:-1}
+  .hero h1{margin-top:14px;font-size:34px}
+  .hero .lead{font-size:17px}
+  .links .btn{flex:1 1 auto;justify-content:center;min-height:46px}
+  .facts{margin-top:36px}
+  .facts div{padding:16px}
+  .facts b{font-size:19px}
+  .facts span{font-size:13px}
+  section{padding:64px 0}
+  .lead{font-size:17px}
+  /* swipeable rows instead of very tall stacks */
+  .real-grid,.games-grid,.dev-grid,.sys-row,.theme-row,.teasers,.nc-grid,.built{
+    display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;
+    margin-left:-24px;margin-right:-24px;padding:0 24px 6px;scroll-padding:0 24px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .real-grid::-webkit-scrollbar,.games-grid::-webkit-scrollbar,.dev-grid::-webkit-scrollbar,.sys-row::-webkit-scrollbar,.theme-row::-webkit-scrollbar,.teasers::-webkit-scrollbar,.nc-grid::-webkit-scrollbar,.built::-webkit-scrollbar{display:none}
+  .real-grid>*,.games-grid>*{flex:0 0 74%;scroll-snap-align:start}
+  .dev-grid>*,.nc-grid>*{flex:0 0 84%;scroll-snap-align:start}
+  .sys-row>*,.theme-row>*{flex:0 0 66%;max-width:none!important;scroll-snap-align:start}
+  .teasers>*,.built>*{flex:0 0 82%;scroll-snap-align:start}
+  .swipe{display:flex}
+  .feat{gap:18px}
+  .neon .nframe video,.frame video{width:min(300px,72vw)}
+  details{padding:0}
+  summary{padding:16px 0;min-height:52px;align-items:center}
+  details[open] p{padding-bottom:16px}
+  .follow{padding:28px 20px}
+  .scale span{height:48px}
+  #f .btn{width:100%;justify-content:center;min-height:48px}
+}
+@media (max-width:560px){
+  .real-grid,.games-grid,.dev-grid,.sys-row,.theme-row,.teasers,.nc-grid,.built{margin-left:-16px;margin-right:-16px;padding:0 16px 6px;scroll-padding:0 16px}
+  .hero h1{font-size:31px}
+}
+.swipe{display:none;align-items:center;gap:6px;margin-top:10px;font-size:13px;color:var(--muted)}
+.swipe:after{content:"→";font-weight:800}
 </style>
 </head>
 <body>
@@ -256,6 +316,7 @@ footer p{max-width:520px}
 <nav>
   <div class="wrap">
     <a class="brand" href="#top"><img src="images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+    <button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <ul>
       <li><a href="#games">Games</a></li>
       <li><a href="#device">Device</a></li>
@@ -301,10 +362,11 @@ footer p{max-width:520px}
     <h2>Not renders. The real thing, so far.</h2>
     <p class="lead">3D-printed shell, the first prototype board, and a lot of tape. It boots, both screens work, and it closes.</p>
     <div class="real-grid">
-      <figure style="margin:0"><div class="shot"><video src="images/photos/clip-shell.mp4" poster="images/photos/clip-shell_poster.jpg" muted loop playsinline autoplay></video><span class="tag real">Real</span></div><figcaption>The first printed shell. This is the size it really is.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><video preload="none" src="images/photos/clip-shell.mp4" poster="images/photos/clip-shell_poster.jpg" muted loop playsinline></video><span class="tag real">Real</span></div><figcaption>The first printed shell. This is the size it really is.</figcaption></figure>
       <figure style="margin:0"><div class="shot"><img src="images/photos/proto-settings.jpg" loading="lazy" alt="Prototype held in hand, both screens on, settings menu visible"><span class="tag real">Real</span></div><figcaption>First full prototype: board, screens and hinge in one shell.</figcaption></figure>
       <figure style="margin:0"><div class="shot"><img src="images/photos/board-hand.jpg" loading="lazy" alt="The main board held between two fingers"><span class="tag real">Real</span></div><figcaption>The main board. Everything has to fit under one screen.</figcaption></figure>
     </div>
+    <p class="swipe">Swipe for more</p>
   </div>
 </section>
 
@@ -314,10 +376,11 @@ footer p{max-width:520px}
     <h2>Yes, it plays DS games. And GBA. And more.</h2>
     <p class="lead">Filmed on my prototype with a phone; the clips are only trimmed. DS games run through DraStic on both screens; GBA, Game Boy, PlayStation and the other single-screen systems run on open-source cores, with a quick panel on the bottom screen for saving, loading and fast-forward.</p>
     <div class="games-grid">
-      <figure style="margin:0"><div class="shot"><video src="images/photos/clip-nds-game.mp4" poster="images/photos/clip-nds-game_poster.jpg" muted loop playsinline autoplay preload="none" aria-label="A DS game running on the prototype"></video><span class="tag real">Real · DS</span></div><figcaption><b>DS on two screens.</b> From the title screen into the game, then loading a save slot. Pokémon White 2.</figcaption></figure>
-      <figure style="margin:0"><div class="shot"><video src="images/photos/clip-gba-game.mp4" poster="images/photos/clip-gba-game_poster.jpg" muted loop playsinline autoplay preload="none" aria-label="A GBA game with the bottom-screen quick panel"></video><span class="tag real">Real · GBA</span></div><figcaption><b>GBA with a quick panel.</b> Tap Save, Load or hold 2× on the bottom screen. Super Robot Wars J.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><video src="images/photos/clip-nds-game.mp4" poster="images/photos/clip-nds-game_poster.jpg" muted loop playsinline preload="none" aria-label="A DS game running on the prototype"></video><span class="tag real">Real · DS</span></div><figcaption><b>DS on two screens.</b> From the title screen into the game, then loading a save slot. Pokémon White 2.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><video src="images/photos/clip-gba-game.mp4" poster="images/photos/clip-gba-game_poster.jpg" muted loop playsinline preload="none" aria-label="A GBA game with the bottom-screen quick panel"></video><span class="tag real">Real · GBA</span></div><figcaption><b>GBA with a quick panel.</b> Tap Save, Load or hold 2× on the bottom screen. Super Robot Wars J.</figcaption></figure>
       <figure style="margin:0"><div class="shot"><img src="images/photos/proto-nds-game.jpg" loading="lazy" alt="A DS game's title screen on both screens of the prototype"><span class="tag real">Real · DS</span></div><figcaption><b>Both screens, full colour.</b> A DS title screen on the prototype in the dark.</figcaption></figure>
     </div>
+    <p class="swipe">Swipe for more</p>
     <p class="muted" style="font-size:14px;margin-top:18px">No games come with the device. Game names and artwork shown belong to their owners.</p>
   </div>
 </section>
@@ -333,6 +396,7 @@ footer p{max-width:520px}
       <figure class="shot" style="margin:0"><img src="images/render-open170.jpg" loading="lazy" width="1600" height="1200" alt="Fully open at 170 degrees"><span class="tag">Render · open 170°</span></figure>
       <figure class="shot" style="margin:0"><img src="images/render-side.jpg" loading="lazy" width="1600" height="1200" alt="Side view showing thickness"><span class="tag">Render · side</span></figure>
     </div>
+    <p class="swipe">Swipe for more</p>
     <div class="notes">
       <div><h3>Close the lid to save</h3><p>A Hall sensor tells the system the lid is shut. It saves your game first, then powers off. Open it and you're back where you were.</p></div>
       <div><h3>Ports where hands aren't</h3><p>USB-C on the left, a 3.5 mm headphone jack on the right, and the microSD card is hidden inside so it can't pop out.</p></div>
@@ -351,7 +415,7 @@ footer p{max-width:520px}
     <h2>A little OS made for two small screens.</h2>
     <p class="lead">I wrote the launcher from scratch on mainline Linux. Below is the real home screen, recorded straight from the system's own renderer. Each console gets a small spinning 3D model on top and your games as cartridges below.</p>
     <div class="sys">
-      <div class="frame"><video src="images/ui-lilvo.mp4" poster="images/ui-lilvo_poster.jpg" muted loop playsinline autoplay aria-label="lilvo home screen: browsing games and switching consoles"></video></div>
+      <div class="frame"><video preload="none" src="images/ui-lilvo.mp4" poster="images/ui-lilvo_poster.jpg" muted loop playsinline aria-label="lilvo home screen: browsing games and switching consoles"></video></div>
       <div class="feat">
         <div><h3>Shelf home</h3><p>L / R switch consoles, left / right pick a game. Every console remembers where you were.</p></div>
         <div><h3>A–Z index</h3><p>Hold the screen edge or press Y for a curved alphabet that swells under your finger.</p></div>
@@ -362,10 +426,11 @@ footer p{max-width:520px}
       </div>
     </div>
     <div class="sys-row">
-      <div class="screen-card"><video src="images/ui-az.mp4" poster="images/ui-az_poster.jpg" muted loop playsinline autoplay aria-label="A to Z index"></video><h3>A–Z index</h3><p>Jump to a letter in two moves.</p></div>
+      <div class="screen-card"><video preload="none" src="images/ui-az.mp4" poster="images/ui-az_poster.jpg" muted loop playsinline aria-label="A to Z index"></video><h3>A–Z index</h3><p>Jump to a letter in two moves.</p></div>
       <div class="screen-card"><img class="px" src="images/ui-gamemenu.png" width="768" height="1182" loading="lazy" alt="In-game menu"><h3>In-game menu</h3><p>Four save slots per game, with screenshots.</p></div>
       <div class="screen-card"><img class="px" src="images/ui-settings.png" width="768" height="1182" loading="lazy" alt="Settings screen"><h3>Settings</h3><p>Every option explains itself on the top screen.</p></div>
     </div>
+    <p class="swipe">Swipe for more</p>
     <div class="systems">
       <span class="on">DS</span><span>GBA</span><span>Game Boy</span><span>Game Boy Color</span><span>NES</span><span>PlayStation</span><span>PC Engine</span><span>Master System</span><span>Game Gear</span><span>Neo Geo Pocket</span><span>WonderSwan</span><span>Lynx</span>
     </div>
@@ -404,7 +469,7 @@ footer p{max-width:520px}
     <h2>Same system, four moods.</h2>
     <p class="lead">A theme changes more than colours: each can have its own home layout, its own way of drawing consoles and cartridges, and a screen filter. lilvo is the default. NEON is the one I've had the most fun with.</p>
     <div class="neon">
-      <div class="nframe"><video src="images/ui-neon.mp4" poster="images/ui-neon_poster.jpg" muted loop playsinline autoplay aria-label="NEON theme home screen"></video></div>
+      <div class="nframe"><video preload="none" src="images/ui-neon.mp4" poster="images/ui-neon_poster.jpg" muted loop playsinline aria-label="NEON theme home screen"></video></div>
       <div class="ntext">
         <div class="label">Theme · NEON</div>
         <h3>Cyberpunk, <em>on a very small screen.</em></h3>
@@ -424,7 +489,7 @@ footer p{max-width:520px}
         <p>The same theme running on my taped-together prototype, filmed with my phone: switching consoles, scrolling the game wheel, the holographic models spinning.</p>
         <p style="font-size:14px;color:#8E86AE">Game names and covers in this clip come from my own test library.</p>
       </div>
-      <div class="nreal"><video src="images/photos/clip-neon-real.mp4" poster="images/photos/clip-neon-real_poster.jpg" muted loop playsinline autoplay preload="none" aria-label="NEON theme running on the real prototype"></video></div>
+      <div class="nreal"><video src="images/photos/clip-neon-real.mp4" poster="images/photos/clip-neon-real_poster.jpg" muted loop playsinline preload="none" aria-label="NEON theme running on the real prototype"></video></div>
     </div>
     <div class="neon-colors">
       <div class="nc-head"><div class="label" style="color:#3CF2D0">Maybe, one day</div><h3>NEON colourways</h3><p>Shell colours I rendered to go with the NEON theme: translucent pink and purple, and a mint version. Whether shells like these can actually be made, and at what cost, is completely unknown for now.</p></div>
@@ -434,12 +499,14 @@ footer p{max-width:520px}
         <figure class="shot" style="margin:0"><img src="images/neon-pink-back.jpg" loading="lazy" alt="Translucent pink lid, back view"><span class="tag">Render · concept colour</span></figure>
         <figure class="shot" style="margin:0"><img src="images/neon-mint-back.jpg" loading="lazy" alt="Translucent mint lid, back view"><span class="tag">Render · concept colour</span></figure>
       </div>
+    <p class="swipe">Swipe for more</p>
     </div>
     <div class="theme-row">
       <div class="screen-card"><img class="px" src="images/ui-home.png" width="768" height="1182" loading="lazy" alt="lilvo default theme"><h3>lilvo</h3><p>The default. Warm orange on charcoal, Shelf layout.</p></div>
       <div class="screen-card"><img class="px" src="images/ui-dmg.png" width="768" height="1182" loading="lazy" alt="DMG theme"><h3>DMG</h3><p>Four shades of green, hand-drawn pixel consoles, a handheld-RPG style menu.</p></div>
       <div class="screen-card"><img class="px" src="images/ui-paper.png" width="768" height="1182" loading="lazy" alt="PAPER theme"><h3>PAPER</h3><p>Black on white, a plain list. For people who just want their games.</p></div>
     </div>
+    <p class="swipe">Swipe for more</p>
   </div>
 </section>
 
@@ -453,6 +520,7 @@ footer p{max-width:520px}
       <a class="teaser" href="log/2026-10-26-lilvo-1-0.html"><img class="px" src="images/ui-home.png" loading="lazy" alt=""><div><span class="d">Oct 26</span><h3>lilvo system 1.0</h3><p>Launcher, 12 consoles, save states, close-the-lid saving and the web manager.</p></div></a>
       <a class="teaser" href="log/2026-10-25-enclosure-exploded.html"><img src="images/render-explode2.jpg" loading="lazy" alt=""><div><span class="d">Oct 25</span><h3>The enclosure, layer by layer</h3><p>Five shell parts, a steel hinge pin and a spring detent, all inside 18 mm.</p></div></a>
     </div>
+    <p class="swipe">Swipe for more</p>
     <a class="btn acc" href="log.html" style="margin-top:28px">See the full timeline →</a>
   </div>
 </section>
@@ -554,11 +622,16 @@ document.getElementById('f').addEventListener('submit',async e=>{
     m.textContent='Hmm, that didn’t go through. Could you try again in a moment?';m.classList.add('err');
   }
 });
-// pause off-screen videos to save battery
-if('IntersectionObserver' in window){
-  const io=new IntersectionObserver(es=>es.forEach(x=>{const v=x.target;if(x.isIntersecting){v.play&&v.play().catch(()=>{})}else{v.pause()}}),{threshold:.1});
-  document.querySelectorAll('video').forEach(v=>io.observe(v));
-}
+
+// mobile menu
+(function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
+b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false')})});})();
+// play videos only while visible (saves data and battery on phones); respect reduced motion
+(function(){var vs=document.querySelectorAll('video:not([controls])');var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
+vs.forEach(function(v){io.observe(v)});})();
 </script>
 </body>
 </html>

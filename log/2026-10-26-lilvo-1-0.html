@@ -1,11 +1,11 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>lilvo system 1.0 — lilvo DS Micro build log</title><meta name="description" content="Launcher, 12 consoles, save states with screenshots, close-the-lid saving and a web page for files. Everything since Oct 19 rolled into one install."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+<title>lilvo system 1.0 — lilvo DS Micro build log</title><meta name="description" content="Launcher, 12 consoles, save states with screenshots, close-the-lid saving and a web page for files. Everything since Oct 19 rolled into one install."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 <ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
 <main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Oct 26, 2026</div>
 <h1>lilvo system 1.0</h1><div class="meta"><span>Oct 26, 2026</span><span class="chip sw">software</span><span class="chip ms">milestone</span></div>
 
 <p class="intro">One week after the first board lit up, I'm calling the system 1.0. It isn't finished, but it does everything I wanted on day one, and it's what I'll build the next round on.</p>
-<figure class="narrow center"><video class="px" src="../images/ui-lilvo.mp4" poster="../images/ui-lilvo_poster.jpg" muted loop playsinline autoplay></video><figcaption>The default home screen, recorded from the system's own renderer.</figcaption></figure>
+<figure class="narrow center"><video class="px" src="../images/ui-lilvo.mp4" poster="../images/ui-lilvo_poster.jpg" muted loop playsinline></video><figcaption>The default home screen, recorded from the system's own renderer.</figcaption></figure>
 <h2>What's in 1.0</h2>
 <ul>
 <li><strong>Launcher</strong> with the Shelf home: spinning 3D console on top, cartridges below, A–Z index on the edge.</li>
@@ -23,4 +23,14 @@
 <p>My dev board has 256 MB of memory, but the chip I'd use in a final version has 128 MB. So 1.0 is tuned to run within 128 MB, including uploading a 600 MB disc image over USB without the system choking.</p>
 <div class="note">From 1.1 on, every update goes through the web page instead of my laptop's terminal. It's the best way to make sure that path really works.</div>
 
-<div class="pn"><a href="2026-10-25-enclosure-exploded.html"><small>← Older</small><b>The enclosure, layer by layer</b></a><a class="next" href="2026-10-28-themes-and-neon.html"><small>Newer →</small><b>Themes, and NEON on the real thing</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer></body></html>
+<div class="pn"><a href="2026-10-25-enclosure-exploded.html"><small>← Older</small><b>The enclosure, layer by layer</b></a><a class="next" href="2026-10-28-themes-and-neon.html"><small>Newer →</small><b>Themes, and NEON on the real thing</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>
+// mobile menu
+(function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
+b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false')})});})();
+// play videos only while visible (saves data and battery on phones); respect reduced motion
+(function(){var vs=document.querySelectorAll('video:not([controls])');var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
+vs.forEach(function(v){io.observe(v)});})();
+</script></body></html>

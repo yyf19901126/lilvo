@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The launcher on real screens — lilvo DS Micro build log</title><meta name="description" content="The home screen I had been mocking up now runs on both screens of the bare board. 3D consoles are drawn in software, no GPU."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+<title>The launcher on real screens — lilvo DS Micro build log</title><meta name="description" content="The home screen I had been mocking up now runs on both screens of the bare board. 3D consoles are drawn in software, no GPU."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 <ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
 <main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Oct 20, 2026</div>
 <h1>The launcher on real screens</h1><div class="meta"><span>Oct 20, 2026</span><span class="chip sw">software</span></div>
@@ -12,6 +12,16 @@
 <p>The chip has no 3D graphics hardware, so the little consoles on the top screen are drawn entirely in software: a few dozen faces per model, rotated and shaded every frame. The rule for the models was simple: you should recognise the console at a glance, and fine detail doesn't matter.</p>
 <h2>One menu key</h2>
 <p>Like FunKey S, POWER is the only menu key. A short press opens the menu anywhere. Holding it for 2 seconds turns the console off, after saving if you're in a game.</p>
-<figure class="narrow center"><video class="px" src="../images/ui-az.mp4" poster="../images/ui-az_poster.jpg" muted loop playsinline autoplay preload="none"></video><figcaption>The A–Z index: a curved alphabet that swells under your finger, or press Y.</figcaption></figure>
+<figure class="narrow center"><video class="px" src="../images/ui-az.mp4" poster="../images/ui-az_poster.jpg" muted loop playsinline preload="none"></video><figcaption>The A–Z index: a curved alphabet that swells under your finger, or press Y.</figcaption></figure>
 
-<div class="pn"><a href="2026-10-18-first-power-on.html"><small>← Older</small><b>First power-on</b></a><a class="next" href="2026-10-21-handheld-now.html"><small>Newer →</small><b>It&#x27;s a handheld now</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer></body></html>
+<div class="pn"><a href="2026-10-18-first-power-on.html"><small>← Older</small><b>First power-on</b></a><a class="next" href="2026-10-21-handheld-now.html"><small>Newer →</small><b>It&#x27;s a handheld now</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>
+// mobile menu
+(function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
+b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false')})});})();
+// play videos only while visible (saves data and battery on phones); respect reduced motion
+(function(){var vs=document.querySelectorAll('video:not([controls])');var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
+vs.forEach(function(v){io.observe(v)});})();
+</script></body></html>

@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Proving the chip on a dev board — lilvo DS Micro build log</title><meta name="description" content="Before trusting my own boards, I ran the whole software stack on a MangoPi dev board and wired a real screen to it. 75 MHz, 60 fps, no dropped frames."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+<title>Proving the chip on a dev board — lilvo DS Micro build log</title><meta name="description" content="Before trusting my own boards, I ran the whole software stack on a MangoPi dev board and wired a real screen to it. 75 MHz, 60 fps, no dropped frames."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 <ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
 <main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Oct 2 – 12, 2026</div>
 <h1>Proving the chip on a dev board</h1><div class="meta"><span>Oct 2 – 12, 2026</span><span class="chip hw">hardware</span><span class="chip sw">software</span><span class="chip ms">milestone</span></div>
@@ -29,4 +29,14 @@
 <li>Everything from the display library to the boot setup carried straight over to my own boards a week later.</li>
 </ul>
 
-<div class="pn"><a href="2026-09-starting-from-funkey-s.html"><small>← Older</small><b>Starting from FunKey S</b></a><a class="next" href="2026-10-18-first-power-on.html"><small>Newer →</small><b>First power-on</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer></body></html>
+<div class="pn"><a href="2026-09-starting-from-funkey-s.html"><small>← Older</small><b>Starting from FunKey S</b></a><a class="next" href="2026-10-18-first-power-on.html"><small>Newer →</small><b>First power-on</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>
+// mobile menu
+(function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
+b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false')})});})();
+// play videos only while visible (saves data and battery on phones); respect reduced motion
+(function(){var vs=document.querySelectorAll('video:not([controls])');var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
+vs.forEach(function(v){io.observe(v)});})();
+</script></body></html>

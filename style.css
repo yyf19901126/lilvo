@@ -98,3 +98,41 @@ footer p{max-width:520px}
 }
 @media (max-width:560px){.wrap{padding:0 16px}.article{padding:40px 16px 0}.timeline{padding-left:26px}.entry:before{left:-25px}.timeline:before{left:5px}.month{margin-left:-26px;padding-left:26px}}
 .article figure img{border:1px solid var(--line)}
+
+/* ---- mobile ---- */
+html{-webkit-text-size-adjust:100%}
+a,button,label,summary{-webkit-tap-highlight-color:transparent}
+.menu-btn{display:none;margin-left:auto;width:44px;height:44px;border:0;background:none;padding:12px 10px;cursor:pointer}
+.menu-btn span{display:block;height:2px;background:var(--text);border-radius:2px;margin:5px 0;transition:transform .2s,opacity .2s}
+nav.open .menu-btn span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+nav.open .menu-btn span:nth-child(2){opacity:0}
+nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:900px){
+  .menu-btn{display:block}
+  nav ul{display:none;position:absolute;left:0;right:0;top:60px;flex-direction:column;gap:0;margin:0;padding:6px 0 14px;background:rgba(14,15,18,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+  nav.open ul{display:flex}
+  nav ul a{display:block;padding:13px 24px;font-size:17px;color:var(--text)}
+  .entry:hover{transform:none}
+}
+@media (hover:none){.entry:hover,.teaser:hover,.bcard:hover{transform:none}}
+
+@media (max-width:900px){
+  .log-head{padding:40px 0 20px}
+  .phases{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:28px -24px 0;padding:0 24px 6px;scrollbar-width:none}
+  .phases::-webkit-scrollbar{display:none}
+  .phase{flex:0 0 44%;scroll-snap-align:start}
+  .timeline{margin-top:36px}
+  .entry{gap:14px}
+  .entry h2{font-size:20px}
+  .article .intro{font-size:17.5px}
+  .article h2{font-size:21px;margin-top:36px}
+  .article table{font-size:14.5px}
+  .article td,.article th{padding:9px 8px 9px 0}
+  .article figure>svg{min-width:640px}
+  .article figure:has(>svg){overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .pn a{min-height:64px}
+  .crumbs a{display:inline-block;padding:8px 0}
+}
+@media (max-width:560px){.phases{margin-left:-16px;margin-right:-16px;padding:0 16px 6px}.phase{flex-basis:58%}}
+.swipe-note{display:none}
+@media (max-width:900px){.swipe-note{display:inline}}

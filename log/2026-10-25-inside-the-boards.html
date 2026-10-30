@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Inside the boards — lilvo DS Micro build log</title><meta name="description" content="Three boards, one chip, two independent screens. How the electronics fit under a 2-inch screen, and why the lid carries almost nothing."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+<title>Inside the boards — lilvo DS Micro build log</title><meta name="description" content="Three boards, one chip, two independent screens. How the electronics fit under a 2-inch screen, and why the lid carries almost nothing."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 <ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
 <main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Oct 25, 2026</div>
 <h1>Inside the boards</h1><div class="meta"><span>Oct 25, 2026</span><span class="chip hw">hardware</span></div>
@@ -29,7 +29,7 @@
 <line x1="460" y1="190" x2="518" y2="177" stroke="#8A8B94" marker-end="url(#ar)"/><line x1="460" y1="205" x2="518" y2="221" stroke="#8A8B94"/>
 <line x1="460" y1="220" x2="518" y2="265" stroke="#8A8B94" marker-end="url(#ar)"/><line x1="460" y1="226" x2="518" y2="309" stroke="#8A8B94"/>
 <line x1="375" y1="166" x2="375" y2="142" stroke="#FF8A3D" stroke-width="2"/>
-</g></svg><figcaption>How the parts connect. Each screen has its own SPI bus and its own refresh signal.</figcaption></figure>
+</g></svg><figcaption>How the parts connect. Each screen has its own SPI bus and its own refresh signal. <span class="swipe-note">(Swipe to see the whole diagram.)</span></figcaption></figure>
 <h2>Three boards</h2>
 <table><tr><th>Board</th><th>Size</th><th>Job</th></tr>
 <tr><td>Main board</td><td>82 × 43 mm, 6 layers, 0.8 mm</td><td>Everything active: chip, power, buttons, bottom screen, audio, ports. 213 parts on both sides.</td></tr>
@@ -49,4 +49,14 @@
 <h2>Power, measured</h2>
 <p>On the first prototype, a DS game on both screens drew about 1.1 W in total. With the 1200 mAh battery, that works out to an estimated 3.5–4 hours of DS play. It's an estimate until the Beta boards run on battery.</p>
 
-<div class="pn"><a href="2026-10-24-web-manager.html"><small>← Older</small><b>Managing games from a browser</b></a><a class="next" href="2026-10-25-enclosure-exploded.html"><small>Newer →</small><b>The enclosure, layer by layer</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer></body></html>
+<div class="pn"><a href="2026-10-24-web-manager.html"><small>← Older</small><b>Managing games from a browser</b></a><a class="next" href="2026-10-25-enclosure-exploded.html"><small>Newer →</small><b>The enclosure, layer by layer</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>
+// mobile menu
+(function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
+b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false')})});})();
+// play videos only while visible (saves data and battery on phones); respect reduced motion
+(function(){var vs=document.querySelectorAll('video:not([controls])');var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
+vs.forEach(function(v){io.observe(v)});})();
+</script></body></html>
