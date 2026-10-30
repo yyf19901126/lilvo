@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lilvo system 1.0 — lilvo DS Micro build log</title><meta name="description" content="Launcher, 12 consoles, save states with screenshots, close-the-lid saving and a web page for files. Everything since Oct 19 rolled into one install."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Oct 26, 2026</div>
+<h1>lilvo system 1.0</h1><div class="meta"><span>Oct 26, 2026</span><span class="chip sw">software</span><span class="chip ms">milestone</span></div>
+
+<p class="intro">One week after the first board lit up, I'm calling the system 1.0. It isn't finished, but it does everything I wanted on day one, and it's what I'll build the next round on.</p>
+<figure class="narrow center"><video class="px" src="../images/ui-lilvo.mp4" poster="../images/ui-lilvo_poster.jpg" muted loop playsinline autoplay></video><figcaption>The default home screen, recorded from the system's own renderer.</figcaption></figure>
+<h2>What's in 1.0</h2>
+<ul>
+<li><strong>Launcher</strong> with the Shelf home: spinning 3D console on top, cartridges below, A–Z index on the edge.</li>
+<li><strong>12 consoles.</strong> DS through DraStic. GBA, Game Boy, Game Boy Color, NES, PlayStation, PC Engine, Master System, Game Gear, Neo Geo Pocket, WonderSwan and Lynx through open-source libretro cores, behind a small front end I wrote.</li>
+<li><strong>Save states</strong>: four slots per game, each with a screenshot, plus an automatic one when you quit.</li>
+<li><strong>Close the lid</strong>: the game is saved, then the console turns off. Open it and you continue from that moment.</li>
+<li><strong>Battery safety</strong>: at low battery it warns you; when it's empty it saves and shuts down by itself.</li>
+<li><strong>Files and updates from a browser</strong> at lilvo.local (more in <a href="2026-10-24-web-manager.html">this post</a>).</li>
+</ul>
+<div class="pair"><figure><img class="px" src="../images/ui-gamemenu.png" alt="In-game menu"><figcaption>The in-game menu, over a paused game.</figcaption></figure><figure><img class="px" src="../images/ui-settings.png" alt="Settings"><figcaption>Every setting explains itself on the top screen.</figcaption></figure></div>
+<h2>Saves come first</h2>
+<p>The thing I care about most is never losing a save. Every save is written to a temporary file, flushed, then renamed into place, so a power cut can only lose the save in progress, never the old one. Game saves are also kept with a short history, so a bad save can be rolled back from the web page.</p>
+<h2>Built for 128 MB</h2>
+<p>My dev board has 256 MB of memory, but the chip I'd use in a final version has 128 MB. So 1.0 is tuned to run within 128 MB, including uploading a 600 MB disc image over USB without the system choking.</p>
+<div class="note">From 1.1 on, every update goes through the web page instead of my laptop's terminal. It's the best way to make sure that path really works.</div>
+
+<div class="pn"><a href="2026-10-25-enclosure-exploded.html"><small>← Older</small><b>The enclosure, layer by layer</b></a><a class="next" href="2026-10-28-themes-and-neon.html"><small>Newer →</small><b>Themes, and NEON on the real thing</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer></body></html>

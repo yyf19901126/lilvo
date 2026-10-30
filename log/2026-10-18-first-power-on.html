@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First power-on — lilvo DS Micro build log</title><meta name="description" content="The first prototype boards came back. Voltages good, Linux boots, both screens show a test pattern at 60 fps. Same night: my first post on r/SBCGaming."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Oct 18, 2026</div>
+<h1>First power-on</h1><div class="meta"><span>Oct 18, 2026</span><span class="chip hw">hardware</span><span class="chip ms">milestone</span></div>
+
+<p class="intro">The first prototype boards arrived from the factory. This is the moment you find out whether a month of design work is a handheld or a very small heater.</p>
+<figure class="narrow center"><img src="../images/photos/first-power.jpg" alt="Board powered over USB with a current meter"><figcaption>First power, with a USB meter in line and no screens attached.</figcaption></figure>
+<h2>Bring-up, step by step</h2>
+<ol>
+<li><strong>No smoke.</strong> Powered with a current limit first, then checked every supply rail on the test points. All in range.</li>
+<li><strong>It boots.</strong> Linux came up, and I could log in over USB from my Mac.</li>
+<li><strong>Both screens.</strong> The first time, I plugged the hinge cable in the wrong way round. Nothing broke. Flipped, both screens showed their test pattern with the right colours in each corner.</li>
+<li><strong>No tearing.</strong> The screens only sent their refresh signal when it was set to line 0. With that set: 60 fps on both screens with no tearing.</li>
+<li><strong>Touch.</strong> The touch chip came from the factory blank, without firmware. I loaded the panel maker's firmware onto it, and touch worked.</li>
+</ol>
+<div class="pair"><figure><img src="../images/photos/screens-grid.jpg" alt="Both screens showing a grid"><figcaption>Both screens alive.</figcaption></figure><figure><img src="../images/photos/desk.jpg" alt="The workbench"><figcaption>The desk that night.</figcaption></figure></div>
+<h2>Numbers from the first board</h2>
+<table><tr><th>Test</th><th>Result</th></tr>
+<tr><td>Screen refresh at 75 MHz</td><td>60 fps per screen, 11 ms to send a frame</td></tr>
+<tr><td>DS game, both screens</td><td>about 56 fps shown and very smooth to the eye; about 1.1 W total</td></tr>
+<tr><td>30-minute stress test</td><td>Both cores at full load plus constant SD writes: no crash, 0 errors, settled at 52–54 °C</td></tr>
+<tr><td>Backlights</td><td>about 40 mA per screen</td></tr></table>
+<p>A few things only got noted down: L / R weren't fitted on this board, and the headphone jack was placed backwards. Both are fixed in the Beta boards.</p>
+<p>That night I posted my first progress update on r/SBCGaming.</p>
+
+<div class="pn"><a href="2026-10-12-mangopi.html"><small>← Older</small><b>Proving the chip on a dev board</b></a><a class="next" href="2026-10-20-launcher.html"><small>Newer →</small><b>The launcher on real screens</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer></body></html>

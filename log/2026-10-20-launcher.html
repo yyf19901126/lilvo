@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The launcher on real screens — lilvo DS Micro build log</title><meta name="description" content="The home screen I had been mocking up now runs on both screens of the bare board. 3D consoles are drawn in software, no GPU."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Oct 20, 2026</div>
+<h1>The launcher on real screens</h1><div class="meta"><span>Oct 20, 2026</span><span class="chip sw">software</span></div>
+
+<p class="intro">Day two after the first power-on, and the launcher runs on the real panels. Seeing your own UI on the actual screens is a very different feeling from a mockup.</p>
+<figure class="narrow center"><video src="../images/photos/clip-devboard.mp4" poster="../images/photos/clip-devboard_poster.jpg" controls muted loop playsinline preload="metadata"></video><figcaption>Settings on the bare board, both screens running.</figcaption></figure>
+<h2>Only 256 × 192</h2>
+<p>Each screen is physically larger, but the shell only shows a 256 × 192 window, the same as the original DS. Everything the system draws lives inside that window; the rest of the panel is never lit.</p>
+<h2>3D without a GPU</h2>
+<p>The chip has no 3D graphics hardware, so the little consoles on the top screen are drawn entirely in software: a few dozen faces per model, rotated and shaded every frame. The rule for the models was simple: you should recognise the console at a glance, and fine detail doesn't matter.</p>
+<h2>One menu key</h2>
+<p>Like FunKey S, POWER is the only menu key. A short press opens the menu anywhere. Holding it for 2 seconds turns the console off, after saving if you're in a game.</p>
+<figure class="narrow center"><video class="px" src="../images/ui-az.mp4" poster="../images/ui-az_poster.jpg" muted loop playsinline autoplay preload="none"></video><figcaption>The A–Z index: a curved alphabet that swells under your finger, or press Y.</figcaption></figure>
+
+<div class="pn"><a href="2026-10-18-first-power-on.html"><small>← Older</small><b>First power-on</b></a><a class="next" href="2026-10-21-handheld-now.html"><small>Newer →</small><b>It&#x27;s a handheld now</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer></body></html>

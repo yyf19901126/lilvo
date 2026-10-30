@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lilvo DS Micro — a tiny dual-screen handheld, built in the open</title>
+<meta name="description" content="Notes and photos from building lilvo DS Micro, a hobby clamshell handheld with two screens, 85 × 46 × 18 mm. Prototype stage, working towards production.">
+<meta property="og:title" content="lilvo DS Micro">
+<meta property="og:description" content="A tiny dual-screen clamshell handheld I'm building in the open. Prototype stage.">
+<meta property="og:image" content="images/render-hero.jpg">
+<link rel="icon" href="images/lilvo.svg">
+<style>
+@font-face{font-family:Nunito;font-weight:400;src:url(fonts/nunito-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Nunito;font-weight:700;src:url(fonts/nunito-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:Nunito;font-weight:800;src:url(fonts/nunito-latin-800-normal.woff2) format("woff2")}
+:root{
+  /* LILVO default theme */
+  --bg:#0E0F12; --surf:#1A1C21; --surf2:#14161A; --line:#2A2D35; --line2:#3A3D47;
+  --text:#F3F1EC; --text2:#C9C8C2; --muted:#A3A3AC; --dim:#8A8B94;
+  --acc:#FF8A3D; --accfg:#1A0E05; --acc-dim:#9A5A30;
+  --shell:#D8D3CA; --shell-2:#C4BDB0;
+  --max:1120px; --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 17px/1.6 Nunito,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%;height:auto}
+a{color:var(--acc);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+h1,h2,h3{margin:0;font-weight:800;line-height:1.15;letter-spacing:-.01em}
+h1{font-size:clamp(34px,5vw,54px)}
+h2{font-size:clamp(26px,3.4vw,36px)}
+h3{font-size:19px}
+p{margin:0}
+.label{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:12px}
+.lead{color:var(--text2);font-size:18px;max-width:640px;margin-top:14px}
+.muted{color:var(--muted)}
+section{padding:96px 0;border-top:1px solid var(--line)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:30;background:rgba(14,15,18,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:28px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none!important}
+.brand img{height:20px;width:auto;filter:invert(96%) sepia(6%) saturate(200%) hue-rotate(10deg)}
+.brand span{font-weight:800;font-size:16px;color:var(--text2);padding-left:10px;border-left:1px solid var(--line2)}
+nav ul{display:flex;gap:22px;list-style:none;margin:0 0 0 auto;padding:0;font-weight:700;font-size:15px}
+nav ul a{color:var(--muted)}
+nav ul a:hover{color:var(--text);text-decoration:none}
+
+/* hero */
+.hero{padding:64px 0 72px;border-top:0}
+.hero-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:48px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:999px;background:var(--surf);border:1px solid var(--line2);font-size:13px;font-weight:700;color:var(--text2)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--acc)}
+.hero h1{margin-top:20px}
+.hero h1 b{color:var(--acc);font-weight:800}
+.hero .lead{margin-top:20px}
+.sig{margin-top:22px;color:var(--muted);font-size:15px}
+.links{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px;font-weight:800}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;font-weight:800;font-size:15px;border:1px solid var(--line2);color:var(--text);text-decoration:none!important}
+.btn:hover{border-color:var(--acc);color:var(--acc)}
+.btn.acc{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
+.btn.acc:hover{filter:brightness(1.06);color:var(--accfg)}
+.shot{position:relative;border-radius:var(--r);overflow:hidden;background:var(--surf)}
+.shot .tag{position:absolute;left:12px;top:12px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:6px;background:rgba(14,15,18,.72);color:var(--text2)}
+.shot .tag.real{background:var(--acc);color:var(--accfg)}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:56px}
+.facts div{background:var(--bg);padding:20px 22px}
+.facts b{display:block;font-size:24px;font-weight:800}
+.facts span{font-size:14px;color:var(--muted)}
+
+/* real photos strip */
+.real-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.real-grid .shot img,.real-grid .shot video{width:100%;aspect-ratio:3/4;object-fit:cover}
+figcaption{font-size:14px;color:var(--muted);margin-top:10px}
+
+/* device */
+.dev-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:40px}
+.dev-grid .a{grid-column:span 4}.dev-grid .b{grid-column:span 2}.dev-grid .c{grid-column:span 3}
+.dev-grid .shot img{width:100%;height:100%;object-fit:cover}
+.dev-grid .b .shot{height:100%}
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px}
+.notes h3{font-size:17px;margin-bottom:6px}
+.notes p{color:var(--muted);font-size:15.5px}
+
+/* system */
+.sys{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:center;margin-top:48px}
+.frame{padding:16px 16px 18px;border-radius:22px;background:linear-gradient(170deg,#E2DDD4,#CBC4B7);box-shadow:0 30px 60px -28px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.6)}
+.frame video,.frame img{width:300px;max-width:66vw;border-radius:6px;background:#000}
+.frame.small video,.frame.small img{width:100%}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:26px 32px}
+.feat div{border-top:1px solid var(--line);padding-top:16px}
+.feat h3{font-size:17px;display:flex;gap:10px;align-items:center}
+.feat h3:before{content:"";width:8px;height:8px;border-radius:2px;background:var(--acc)}
+.feat p{color:var(--muted);font-size:15.5px;margin-top:6px}
+.sys-row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.screen-card{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.screen-card .px{image-rendering:pixelated;width:100%;border-radius:4px}
+.screen-card video{width:100%;border-radius:4px}
+.screen-card h3{font-size:16px;margin-top:14px}
+.screen-card p{color:var(--muted);font-size:14.5px;margin-top:4px}
+.systems{display:flex;flex-wrap:wrap;gap:8px;margin-top:40px}
+.systems span{padding:6px 11px;border-radius:8px;background:var(--surf);border:1px solid var(--line);font-size:14px;font-weight:700;color:var(--text2)}
+.systems span.on{border-color:var(--acc);color:var(--acc)}
+
+/* themes — NEON only lives here */
+.neon{margin-top:48px;border-radius:24px;padding:48px;background:#0B0716;border:1px solid #3A2466;position:relative;overflow:hidden;display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:center}
+.neon:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);pointer-events:none}
+.neon:after{content:"";position:absolute;right:-160px;top:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,43,214,.22),transparent 70%);pointer-events:none}
+.neon .nframe{position:relative;z-index:1;padding:16px 16px 18px;border-radius:22px;background:linear-gradient(170deg,#8E64D8,#6B44B4);box-shadow:0 0 0 2px #FF2BD6 inset,0 30px 70px -20px rgba(255,43,214,.45)}
+.neon .nframe video{width:300px;max-width:66vw;border-radius:6px;background:#000}
+.neon .ntext{position:relative;z-index:1}
+.neon .label{color:#3CF2D0}
+.neon h3{font-size:30px;color:#F2F7FF}
+.neon h3 em{font-style:normal;color:#FF2BD6;text-shadow:0 0 18px rgba(255,43,214,.6)}
+.neon p{color:#B9B2D6;margin-top:14px;max-width:520px}
+.neon ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px}
+.neon li{color:#DCD6F2;font-size:15.5px;padding-left:22px;position:relative}
+.neon li:before{content:"";position:absolute;left:0;top:9px;width:10px;height:2px;background:#3CF2D0;box-shadow:0 0 8px #3CF2D0}
+.theme-row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px}
+
+/* build log */
+.log{margin-top:48px;display:grid;gap:22px}
+.post{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:28px;border:1px solid var(--line);border-radius:18px;background:var(--surf2)}
+.post .date{font-weight:800;color:var(--muted);font-size:14px;line-height:1.4}
+.post .date b{display:block;color:var(--text);font-size:22px}
+.post h3{font-size:22px}
+.post p{color:var(--text2);margin-top:10px;max-width:680px}
+.post .media{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.post .media.two{grid-template-columns:repeat(2,1fr)}
+.post .media img,.post .media video{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;background:var(--surf)}
+.post .media .px{image-rendering:pixelated;object-fit:contain;background:#000;aspect-ratio:4/6}
+.post .media .wide{aspect-ratio:4/3}
+.post .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.post .chips span{font-size:12.5px;font-weight:700;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:3px 10px}
+.post.latest{border-color:var(--acc-dim)}
+.post.latest .date b{color:var(--acc)}
+
+/* specs + faq */
+.two-col{display:grid;grid-template-columns:1fr 1.4fr;gap:56px}
+table{width:100%;border-collapse:collapse;font-size:16px}
+td{padding:13px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{width:36%;color:var(--muted);font-weight:700}
+.tbd{font-size:11px;font-weight:800;color:var(--acc);border:1px solid var(--acc-dim);border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+details{border-bottom:1px solid var(--line);padding:18px 0}
+summary{cursor:pointer;font-weight:800;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";color:var(--acc);font-size:22px;line-height:1;transition:transform .2s}
+details[open] summary:after{transform:rotate(45deg)}
+details p{color:var(--muted);margin-top:8px}
+
+/* follow */
+.follow{display:grid;grid-template-columns:1fr 1fr;gap:48px;background:var(--surf);border:1px solid var(--line);border-radius:22px;padding:48px}
+label.l{display:block;font-weight:800;margin-bottom:8px;font-size:15px}
+input[type=email]{width:100%;padding:13px 15px;border-radius:10px;border:1px solid var(--line2);background:var(--bg);color:var(--text);font:600 16px Nunito,sans-serif}
+fieldset{border:0;padding:0;margin:22px 0}
+legend{font-weight:800;margin-bottom:8px;padding:0;font-size:15px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-top:8px;cursor:pointer;font-size:15px;color:var(--text2)}
+.opt:has(input:checked){border-color:var(--acc)}
+.opt input{accent-color:var(--acc);margin-top:5px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px}
+.scale label{cursor:pointer}
+.scale input{position:absolute;opacity:0;width:1px;height:1px}
+.scale span{display:flex;align-items:center;justify-content:center;height:52px;border:1px solid var(--line2);border-radius:10px;font-weight:800;font-size:19px;color:var(--text2);transition:all .12s}
+.scale label:hover span{border-color:var(--acc-dim);color:var(--text)}
+.scale input:checked+span{background:var(--acc);border-color:var(--acc);color:var(--accfg)}
+.scale input:focus-visible+span{outline:2px solid var(--acc);outline-offset:2px}
+.scale-ends{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:13px;color:var(--muted)}
+.msg{margin-top:12px;font-size:14px;color:var(--acc);min-height:1em}
+
+footer{border-top:1px solid var(--line);padding:36px 0 56px;font-size:14px;color:var(--dim)}
+footer .wrap{display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap}
+footer p{max-width:520px}
+
+@media (max-width:900px){
+  section{padding:72px 0}
+  nav ul{display:none}
+  .hero-grid,.sys,.neon,.two-col,.follow{grid-template-columns:1fr}
+  .neon{padding:28px 20px;justify-items:center}
+  .sys{justify-items:center}
+  .facts{grid-template-columns:1fr 1fr}
+  .real-grid,.sys-row,.theme-row,.notes{grid-template-columns:1fr}
+  .dev-grid{grid-template-columns:1fr}.dev-grid>*{grid-column:auto!important}
+  .feat{grid-template-columns:1fr}
+  .post{grid-template-columns:1fr;gap:10px;padding:22px}
+  .post .media{grid-template-columns:1fr 1fr}
+  .follow{padding:28px 20px}
+}
+@media (max-width:560px){.wrap{padding:0 16px}}
+@media (max-width:900px){.sys-row .screen-card,.theme-row .screen-card{max-width:340px;width:100%;justify-self:center}}
+
+.about{font-size:15px;color:var(--text2);background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;padding:12px 16px;margin-bottom:40px}
+.about b{color:var(--text)}
+.hero-shot img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.dev-grid{grid-template-columns:1fr 1fr!important}
+.dev-grid>figure img{width:100%;height:auto!important;aspect-ratio:4/3;object-fit:cover}
+.card-shot img{object-fit:contain!important;background:#E6D3C2}
+.web-main img{width:100%}
+.web-main,.web-two figure{border:1px solid var(--line2)}
+.shot .tag.br{left:auto;top:auto;right:12px;bottom:12px}
+.web-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:32px}
+.web-grid div{border-top:1px solid var(--line);padding-top:14px}
+.web-grid h3{font-size:17px}
+.web-grid p{color:var(--muted);font-size:15px;margin-top:6px}
+.web-two{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;margin-top:48px}
+.web-two img{width:100%}
+.neon2{grid-template-columns:1fr auto;margin-top:20px}
+.neon .nreal{position:relative;z-index:1}
+.neon .nreal video{width:300px;max-width:70vw;border-radius:14px;border:1px solid #3A2466;box-shadow:0 0 40px -10px rgba(60,242,208,.35)}
+.neon-colors{margin-top:20px;border-radius:24px;padding:40px 48px;background:#0B0716;border:1px solid #3A2466}
+.nc-head{max-width:640px}
+.nc-head h3{font-size:24px;color:#F2F7FF}
+.nc-head p{color:#B9B2D6;margin-top:10px}
+.nc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+.nc-grid img{width:100%;aspect-ratio:5/4;object-fit:cover}
+.teasers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.teaser{display:block;border:1px solid var(--line);border-radius:16px;background:var(--surf2);overflow:hidden;color:inherit;text-decoration:none!important;transition:border-color .15s}
+.teaser:hover{border-color:var(--acc-dim)}
+.teaser img{width:100%;aspect-ratio:16/10;object-fit:cover;background:#000}
+.teaser img.px{object-fit:contain;image-rendering:pixelated}
+.teaser div{padding:18px 20px 22px}
+.teaser .d{font-size:13px;font-weight:800;color:var(--acc)}
+.teaser h3{font-size:18px;margin-top:4px}
+.teaser p{color:var(--muted);font-size:15px;margin-top:6px}
+@media (max-width:900px){
+  .dev-grid{grid-template-columns:1fr!important}
+  .web-grid{grid-template-columns:1fr 1fr}
+  .web-two,.teasers{grid-template-columns:1fr}
+  .nc-grid{grid-template-columns:1fr 1fr}
+  .built{grid-template-columns:1fr}
+  .neon2{grid-template-columns:1fr}
+  .neon-colors{padding:28px 20px}
+}
+.built{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:48px}
+.bcard{display:grid;grid-template-rows:auto 1fr;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surf2);color:inherit;text-decoration:none!important}
+.bcard:hover{border-color:var(--acc-dim)}
+.bcard img{width:100%;aspect-ratio:16/10;object-fit:cover}
+.bcard div{padding:18px 20px 22px}
+@media (max-width:900px){.built{grid-template-columns:1fr}}
+.bcard .d{font-size:13px;font-weight:800;color:var(--acc)}.bcard h3{font-size:19px;margin-top:4px}.bcard p{color:var(--muted);font-size:15px;margin-top:6px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+    <ul>
+      <li><a href="#device">Device</a></li>
+      <li><a href="#system">System</a></li>
+      <li><a href="#themes">Themes</a></li>
+      <li><a href="#web">Web manager</a></li>
+      <li><a href="log.html">Build log</a></li>
+      <li><a href="#follow">Follow</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="about"><b>What this page is:</b> my project log for <b>lilvo DS Micro</b>, a tiny dual-screen handheld I'm building on my own. It's here so anyone following along can see what it is, how it works and where it's at. It isn't available yet; the goal is a production run, and I'm doing everything I can to get there. <a href="log.html">Latest update: Oct 28 →</a></div>
+    <div class="hero-grid">
+      <div>
+        <span class="pill"><i></i>Prototype · working towards production</span>
+        <h1>A dual-screen handheld <b>the size of a card.</b></h1>
+        <p class="lead">lilvo DS Micro is a clamshell with two screens, real buttons and a real hinge, 85 × 46 × 18 mm closed. It runs DS and 11 classic consoles on its own little OS. I post every step here, the mistakes included.</p>
+        <div class="links">
+          <a class="btn acc" href="log.html">Read the build log</a>
+          <a class="btn" href="#follow">Follow along</a>
+        </div>
+      </div>
+      <figure class="shot hero-shot" style="margin:0">
+        <img src="images/hand-hero.jpg" width="1536" height="1024" alt="lilvo DS Micro, closed, held between a thumb and two fingers against a blue background">
+        <span class="tag">Concept image · closed</span>
+      </figure>
+    </div>
+    <div class="facts">
+      <div><b>85 × 46 × 18 mm</b><span>closed — a bank card is 85.6 × 54</span></div>
+      <div><b>2 screens</b><span>256 × 192 each</span></div>
+      <div><b>1200 mAh</b><span>battery</span></div>
+      <div><b>12 systems</b><span>DS and 11 classic consoles</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="label">From my desk</div>
+    <h2>Not renders. The real thing, so far.</h2>
+    <p class="lead">3D-printed shell, the first prototype board, and a lot of tape. It boots, both screens work, and it closes.</p>
+    <div class="real-grid">
+      <figure style="margin:0"><div class="shot"><video src="images/photos/clip-shell.mp4" poster="images/photos/clip-shell_poster.jpg" muted loop playsinline autoplay></video><span class="tag real">Real</span></div><figcaption>The first printed shell. This is the size it really is.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><img src="images/photos/proto-settings.jpg" loading="lazy" alt="Prototype held in hand, both screens on, settings menu visible"><span class="tag real">Real</span></div><figcaption>First full prototype: board, screens and hinge in one shell.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><img src="images/photos/board-hand.jpg" loading="lazy" alt="The main board held between two fingers"><span class="tag real">Real</span></div><figcaption>The main board. Everything has to fit under one screen.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="device">
+  <div class="wrap">
+    <div class="label">The device</div>
+    <h2>A stretched FunKey S, with a second screen.</h2>
+    <p class="lead">I've always loved the <a href="https://www.funkey-project.com/" rel="noopener">FunKey S</a>, a keychain-sized open-source clamshell. DS Micro started as a simple question: what if it were a bit wider, with a screen on each half? It borrows FunKey S ideas wherever it can; the boards, enclosure and software are new.</p>
+    <div class="dev-grid">
+      <figure class="shot" style="margin:0"><img src="images/render-hero.jpg" loading="lazy" width="1600" height="1200" alt="Open at 120 degrees showing the lilvo home screen"><span class="tag">Render · open</span></figure>
+      <figure class="shot card-shot" style="margin:0"><img src="images/render-card.jpg" loading="lazy" width="1600" height="1200" alt="Closed device lying on top of a bank card, seen from directly above"><span class="tag">Render · on a bank card, to scale</span></figure>
+      <figure class="shot" style="margin:0"><img src="images/render-open170.jpg" loading="lazy" width="1600" height="1200" alt="Fully open at 170 degrees"><span class="tag">Render · open 170°</span></figure>
+      <figure class="shot" style="margin:0"><img src="images/render-side.jpg" loading="lazy" width="1600" height="1200" alt="Side view showing thickness"><span class="tag">Render · side</span></figure>
+    </div>
+    <div class="notes">
+      <div><h3>Close the lid to save</h3><p>A Hall sensor tells the system the lid is shut. It saves your game first, then powers off. Open it and you're back where you were.</p></div>
+      <div><h3>Ports where hands aren't</h3><p>USB-C on the left, a 3.5 mm headphone jack on the right, and the microSD card is hidden inside so it can't pop out.</p></div>
+      <div><h3>Built to be repairable</h3><p>Snap-fit shell, four screws, a steel hinge pin. The design files will be published so anyone can fix or rebuild one.</p></div>
+    </div>
+    <div class="built">
+      <a class="bcard" href="log/2026-10-25-enclosure-exploded.html"><img src="images/render-explode2.jpg" loading="lazy" alt="Exploded render of the device"><div><span class="d">How it's built</span><h3>The enclosure, layer by layer →</h3><p>Exploded view, the 18 mm stack, the hinge and the keys.</p></div></a>
+      <a class="bcard" href="log/2026-10-25-inside-the-boards.html"><img src="images/pcb-main-top.jpg" loading="lazy" alt="Main board layout" style="background:#fff;object-fit:contain"><div><span class="d">How it's built</span><h3>Inside the boards →</h3><p>Three boards, one chip, two independent screens.</p></div></a>
+    </div>
+  </div>
+</section>
+
+<section id="system">
+  <div class="wrap">
+    <div class="label">The lilvo system</div>
+    <h2>A little OS made for two small screens.</h2>
+    <p class="lead">I wrote the launcher from scratch on mainline Linux. Below is the real home screen, recorded straight from the system's own renderer. Each console gets a small spinning 3D model on top and your games as cartridges below.</p>
+    <div class="sys">
+      <div class="frame"><video src="images/ui-lilvo.mp4" poster="images/ui-lilvo_poster.jpg" muted loop playsinline autoplay aria-label="lilvo home screen: browsing games and switching consoles"></video></div>
+      <div class="feat">
+        <div><h3>Shelf home</h3><p>L / R switch consoles, left / right pick a game. Every console remembers where you were.</p></div>
+        <div><h3>A–Z index</h3><p>Hold the screen edge or press Y for a curved alphabet that swells under your finger.</p></div>
+        <div><h3>One menu key</h3><p>Like FunKey S, POWER opens every menu: save states, volume, brightness, swap screens.</p></div>
+        <div><h3>Files from a browser</h3><p>Plug in USB-C and open <b>lilvo.local</b> to add games, covers and saves. <a href="#web">More below.</a></p></div>
+        <div><h3>Updates the same way</h3><p>System updates install from that page too. The manual lives there as well; there's no paper.</p></div>
+        <div><h3>Saves come first</h3><p>Auto-save on quit, on lid close and on low battery, written so a sudden power cut can't corrupt them.</p></div>
+      </div>
+    </div>
+    <div class="sys-row">
+      <div class="screen-card"><video src="images/ui-az.mp4" poster="images/ui-az_poster.jpg" muted loop playsinline autoplay aria-label="A to Z index"></video><h3>A–Z index</h3><p>Jump to a letter in two moves.</p></div>
+      <div class="screen-card"><img class="px" src="images/ui-gamemenu.png" width="768" height="1182" loading="lazy" alt="In-game menu"><h3>In-game menu</h3><p>Four save slots per game, with screenshots.</p></div>
+      <div class="screen-card"><img class="px" src="images/ui-settings.png" width="768" height="1182" loading="lazy" alt="Settings screen"><h3>Settings</h3><p>Every option explains itself on the top screen.</p></div>
+    </div>
+    <div class="systems">
+      <span class="on">DS</span><span>GBA</span><span>Game Boy</span><span>Game Boy Color</span><span>NES</span><span>PlayStation</span><span>PC Engine</span><span>Master System</span><span>Game Gear</span><span>Neo Geo Pocket</span><span>WonderSwan</span><span>Lynx</span>
+    </div>
+    <p class="muted" style="font-size:14px;margin-top:12px">DS uses DraStic; the others use open-source libretro cores. 2D DS games are the target for full speed. Most cores haven't been tested on the real hardware yet. Bring your own games.</p>
+  </div>
+</section>
+
+<section id="web">
+  <div class="wrap">
+    <div class="label">Web manager</div>
+    <h2>Manage games and update the system from a browser.</h2>
+    <p class="lead">No SD card shuffling and no special app. Plug the console into your computer with USB-C, open <b>lilvo.local</b>, and the console serves its own management page.</p>
+    <figure class="shot web-main" style="margin:40px 0 0"><img src="images/web-nds.jpg" loading="lazy" width="1600" height="975" alt="The lilvo web page: Nintendo DS game list with upload area"><span class="tag br">Real page · placeholder games</span></figure>
+    <div class="web-grid">
+      <div><h3>Add games</h3><p>Pick a console, drag files in. Files it can't play are kept but marked red, with the reason.</p></div>
+      <div><h3>Covers</h3><p>Drop a PNG or JPG with the same name as the game. DS games use their own icon until then.</p></div>
+      <div><h3>Rename safely</h3><p>Rename a game and its cover, save file and every save-state slot move with it.</p></div>
+      <div><h3>Back up saves</h3><p>Download all saves as one zip, restore them, or roll one game's save back.</p></div>
+    </div>
+    <div class="web-two">
+      <figure class="shot" style="margin:0"><img src="images/web-update.jpg" loading="lazy" width="1600" height="975" alt="System tab with an installed update and update history"><span class="tag br">System update</span></figure>
+      <div>
+        <h3>System updates, one file</h3>
+        <p class="muted" style="margin-top:8px">Drop an update package on the System tab. The console checks it, backs up what it replaces, installs it and asks you to restart. Games and saves aren't touched. Since lilvo 1.1, this is the only way I update my own prototype.</p>
+        <h3 style="margin-top:26px">The manual lives here</h3>
+        <p class="muted" style="margin-top:8px">The user guide is a page on the console itself, always matching the installed version. <a href="log/2026-10-24-web-manager.html">How and why I built it →</a></p>
+      </div>
+    </div>
+    <p class="muted" style="font-size:14px;margin-top:20px">Works on a Mac today. Windows support needs a different USB network mode and is on the list.</p>
+  </div>
+</section>
+
+<section id="themes">
+  <div class="wrap">
+    <div class="label">Themes</div>
+    <h2>Same system, four moods.</h2>
+    <p class="lead">A theme changes more than colours: each can have its own home layout, its own way of drawing consoles and cartridges, and a screen filter. lilvo is the default. NEON is the one I've had the most fun with.</p>
+    <div class="neon">
+      <div class="nframe"><video src="images/ui-neon.mp4" poster="images/ui-neon_poster.jpg" muted loop playsinline autoplay aria-label="NEON theme home screen"></video></div>
+      <div class="ntext">
+        <div class="label">Theme · NEON</div>
+        <h3>Cyberpunk, <em>on a very small screen.</em></h3>
+        <p>NEON swaps the shelf for a wheel. Games scroll by name on the right, the selected one floats as a glowing glass cartridge on the left, and every console turns into a hologram.</p>
+        <ul>
+          <li>Holographic wireframe consoles, glowing edges included</li>
+          <li>"Relic" cartridges with unique circuit traces per game</li>
+          <li>Scanlines, plus a random glitch every few seconds</li>
+          <li>Wheel layout: up / down for games, L / R for consoles</li>
+        </ul>
+      </div>
+    </div>
+    <div class="neon neon2">
+      <div class="ntext">
+        <div class="label">NEON · on the prototype</div>
+        <h3>Not a mockup.</h3>
+        <p>The same theme running on my taped-together prototype, filmed with my phone: switching consoles, scrolling the game wheel, the holographic models spinning.</p>
+        <p style="font-size:14px;color:#8E86AE">Game names and covers in this clip come from my own test library.</p>
+      </div>
+      <div class="nreal"><video src="images/photos/clip-neon-real.mp4" poster="images/photos/clip-neon-real_poster.jpg" muted loop playsinline autoplay preload="none" aria-label="NEON theme running on the real prototype"></video></div>
+    </div>
+    <div class="neon-colors">
+      <div class="nc-head"><div class="label" style="color:#3CF2D0">Maybe, one day</div><h3>NEON colourways</h3><p>Shell colours I rendered to go with the NEON theme: translucent pink and purple, and a mint version. Whether shells like these can actually be made, and at what cost, is completely unknown for now.</p></div>
+      <div class="nc-grid">
+        <figure class="shot" style="margin:0"><img src="images/neon-pink-open.jpg" loading="lazy" alt="Translucent pink and purple shell, open"><span class="tag">Render · concept colour</span></figure>
+        <figure class="shot" style="margin:0"><img src="images/neon-mint-open.jpg" loading="lazy" alt="Purple and mint shell, open"><span class="tag">Render · concept colour</span></figure>
+        <figure class="shot" style="margin:0"><img src="images/neon-pink-back.jpg" loading="lazy" alt="Translucent pink lid, back view"><span class="tag">Render · concept colour</span></figure>
+        <figure class="shot" style="margin:0"><img src="images/neon-mint-back.jpg" loading="lazy" alt="Translucent mint lid, back view"><span class="tag">Render · concept colour</span></figure>
+      </div>
+    </div>
+    <div class="theme-row">
+      <div class="screen-card"><img class="px" src="images/ui-home.png" width="768" height="1182" loading="lazy" alt="lilvo default theme"><h3>lilvo</h3><p>The default. Warm orange on charcoal, Shelf layout.</p></div>
+      <div class="screen-card"><img class="px" src="images/ui-dmg.png" width="768" height="1182" loading="lazy" alt="DMG theme"><h3>DMG</h3><p>Four shades of green, hand-drawn pixel consoles, a handheld-RPG style menu.</p></div>
+      <div class="screen-card"><img class="px" src="images/ui-paper.png" width="768" height="1182" loading="lazy" alt="PAPER theme"><h3>PAPER</h3><p>Black on white, a plain list. For people who just want their games.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="log">
+  <div class="wrap">
+    <div class="label">Build log</div>
+    <h2>Latest updates.</h2>
+    <p class="lead">Each update is a short post with photos. Here are the three newest; the full timeline is on its own page.</p>
+    <div class="teasers">
+      <a class="teaser" href="log/2026-10-28-themes-and-neon.html"><img src="images/photos/clip-neon-real_poster.jpg" loading="lazy" alt=""><div><span class="d">Oct 28</span><h3>Themes, and NEON on the real thing</h3><p>Four themes that change the layout and how consoles are drawn, not just the colours.</p></div></a>
+      <a class="teaser" href="log/2026-10-26-lilvo-1-0.html"><img class="px" src="images/ui-home.png" loading="lazy" alt=""><div><span class="d">Oct 26</span><h3>lilvo system 1.0</h3><p>Launcher, 12 consoles, save states, close-the-lid saving and the web manager.</p></div></a>
+      <a class="teaser" href="log/2026-10-25-enclosure-exploded.html"><img src="images/render-explode2.jpg" loading="lazy" alt=""><div><span class="d">Oct 25</span><h3>The enclosure, layer by layer</h3><p>Five shell parts, a steel hinge pin and a spring detent, all inside 18 mm.</p></div></a>
+    </div>
+    <a class="btn acc" href="log.html" style="margin-top:28px">See the full timeline →</a>
+  </div>
+</section>
+
+<section id="specs">
+  <div class="wrap two-col">
+    <div>
+      <div class="label">Specs</div>
+      <h2>Current prototype.</h2>
+      <p class="lead">Anything here can still change.</p>
+    </div>
+    <table>
+      <tr><td>Size</td><td>85 × 46 × 18 mm closed</td></tr>
+      <tr><td>Processor</td><td>Allwinner T113, dual-core Cortex-A7 @ 1.2 GHz</td></tr>
+      <tr><td>Screens</td><td>2 × IPS, 256 × 192 shown on each</td></tr>
+      <tr><td>Touch</td><td>Bottom screen, capacitive<span class="tbd">UNDECIDED</span></td></tr>
+      <tr><td>Controls</td><td>D-pad, A B X Y, L / R, Start, Select, Power</td></tr>
+      <tr><td>Battery</td><td>1200 mAh Li-Po</td></tr>
+      <tr><td>Storage</td><td>microSD, inside the shell</td></tr>
+      <tr><td>Audio</td><td>Speaker + 3.5 mm headphone jack</td></tr>
+      <tr><td>Ports</td><td>USB-C (charging, files, updates). No Wi-Fi.</td></tr>
+      <tr><td>Software</td><td>lilvo system on mainline Linux</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap two-col">
+    <div>
+      <div class="label">FAQ</div>
+      <h2>Things people ask.</h2>
+    </div>
+    <div>
+      <details><summary>Can I buy one?</summary><p>Not yet. The goal is to take it all the way to mass production, and I'm doing everything I can to get there. The Beta boards are the next big step. When there's news about availability, it'll be here and on Reddit first.</p></details>
+      <details><summary>How much would it cost?</summary><p>I don't know yet, and I'd rather not guess.</p></details>
+      <details><summary>How well does it run DS games?</summary><p>2D games are the target and run at full speed in my testing. Heavy 3D games run, but skip frames. Size and battery life come before raw power.</p></details>
+      <details><summary>Touch screen or not?</summary><p>The current prototype has touch on the bottom screen. I'm also exploring an even smaller version without it. If you have an opinion, tell me on Reddit.</p></details>
+      <details><summary>Why no SNES or Mega Drive?</summary><p>The best emulators for those have non-commercial licences, so I've left them out for now.</p></details>
+      <details><summary>Will it be open source?</summary><p>Yes. Hardware under CERN-OHL-S-2.0, and the system with its source. FunKey S is credited, and its non-commercial terms are kept where its parts are reused.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="follow">
+  <div class="wrap">
+    <div class="follow">
+      <div>
+        <div class="label">Follow along</div>
+        <h2>Get a note when something happens.</h2>
+        <p class="lead">An email when there's real progress: new boards, new photos, the open-source release. Nothing else.</p>
+        <div class="links"><a class="btn" href="https://www.reddit.com/r/SBCGaming/" rel="noopener">r/SBCGaming</a><!-- TODO: link to my Reddit posts / Discord / GitHub --></div>
+      </div>
+      <!-- TODO: connect to an email service. Preview only for now. -->
+      <form id="f" novalidate>
+        <label class="l" for="email">Email</label>
+        <input id="email" type="email" placeholder="you@example.com" required>
+        <fieldset>
+          <legend>Optional: would you want a lilvo DS Micro?</legend>
+          <div class="scale" role="radiogroup">
+            <label><input type="radio" name="want" value="1"><span>1</span></label>
+            <label><input type="radio" name="want" value="2"><span>2</span></label>
+            <label><input type="radio" name="want" value="3"><span>3</span></label>
+            <label><input type="radio" name="want" value="4"><span>4</span></label>
+            <label><input type="radio" name="want" value="5"><span>5</span></label>
+          </div>
+          <div class="scale-ends"><span>1 · Just curious</span><span>5 · I'd buy one on day one</span></div>
+        </fieldset>
+        <button class="btn acc" type="submit">Subscribe</button>
+        <p class="msg" id="m" role="status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>lilvo DS Micro is in development and not available yet; the goal is a production run. Images marked "Render" show the current design; images marked "Real" are from my desk.</p>
+    <p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('f').addEventListener('submit',e=>{
+  e.preventDefault();
+  const m=document.getElementById('m'),em=document.getElementById('email');
+  m.textContent=em.checkValidity()?'Preview only. The form isn’t connected yet.':'Please enter a valid email.';
+});
+// pause off-screen videos to save battery
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>es.forEach(x=>{const v=x.target;if(x.isIntersecting){v.play&&v.play().catch(()=>{})}else{v.pause()}}),{threshold:.1});
+  document.querySelectorAll('video').forEach(v=>io.observe(v));
+}
+</script>
+</body>
+</html>

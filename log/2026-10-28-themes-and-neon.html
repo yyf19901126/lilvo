@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Themes, and NEON on the real thing — lilvo DS Micro build log</title><meta name="description" content="The system now has four themes. Each one changes the layout and how consoles are drawn, not just the colours. NEON is the first one I filmed on the prototype."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Oct 28, 2026</div>
+<h1>Themes, and NEON on the real thing</h1><div class="meta"><span>Oct 28, 2026</span><span class="chip sw">software</span><span class="chip ms">milestone</span></div>
+
+<p class="intro">Until now "theme" meant a colour palette. This update makes a theme a whole look: colours, a screen filter, a home layout, and how the consoles and cartridges are drawn. There are four built in: <strong>lilvo</strong> (the default), <strong>NEON</strong>, <strong>DMG</strong> and <strong>PAPER</strong>.</p>
+<figure class="narrow center"><video src="../images/photos/clip-neon-real.mp4" poster="../images/photos/clip-neon-real_poster.jpg" controls muted loop playsinline preload="metadata"></video><figcaption>NEON running on the prototype, filmed with my phone. Browsing consoles and games on the home screen.</figcaption></figure>
+<h2>What NEON does</h2>
+<ul>
+<li><strong>Holographic consoles.</strong> The same 3D console models drawn as translucent cyan surfaces with glowing edges. Hidden edges are drawn too, dimmer, which is what makes it look like a hologram.</li>
+<li><strong>Wheel layout.</strong> Game names scroll on the right of the bottom screen, with the selected one big and the others fading out. Up / down picks a game, L / R switches console.</li>
+<li><strong>"Relic" cartridges.</strong> The selected game floats on the left as a glass cartridge with glowing circuit traces. Every game gets its own trace pattern and colour, and its cover art if there is one.</li>
+<li><strong>Scanlines and glitches.</strong> A scanline filter on both screens, plus a short random glitch every 3–6 seconds: shifted bands, blocks and a red/blue split. Sometimes both screens glitch together, sometimes only one.</li>
+</ul>
+<div class="pair"><figure><video class="px" src="../images/ui-neon.mp4" poster="../images/ui-neon_poster.jpg" muted loop playsinline autoplay preload="none"></video><figcaption>Straight from the renderer.</figcaption></figure><figure><img class="px" src="../images/ui-dmg.png" alt="DMG theme"><figcaption>DMG: four greens and hand-drawn pixel consoles.</figcaption></figure></div>
+<h2>DMG and PAPER</h2>
+<p>DMG is a love letter to the original Game Boy screen. It draws everything in four shades of grey, then a filter maps them to the four classic greens. It has its own 5×7 pixel font, little hand-drawn pixel consoles, and a menu that looks like an old handheld RPG. PAPER is the opposite: black on white, a plain list, no animation.</p>
+<h2>Things I decided not to do</h2>
+<p>No glitches inside the in-game menu or on the panel shown under single-screen games. It looked fun for five minutes and then just got in the way. Themes can't be made by users yet, but the format is a simple text file, so that door is open.</p>
+<div class="note">The holographic drawing takes about twice as long as the normal one. It looks smooth in the video, but I still want to measure it properly on the Beta boards.</div>
+
+<div class="pn"><a href="2026-10-26-lilvo-1-0.html"><small>← Older</small><b>lilvo system 1.0</b></a><span></span></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer></body></html>

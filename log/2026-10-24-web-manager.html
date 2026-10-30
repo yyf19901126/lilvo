@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Managing games from a browser — lilvo DS Micro build log</title><meta name="description" content="Plug in USB-C, open lilvo.local, drag games in. Covers, saves, BIOS files and system updates all live on one web page served by the console."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Oct 24, 2026</div>
+<h1>Managing games from a browser</h1><div class="meta"><span>Oct 24, 2026</span><span class="chip sw">software</span></div>
+
+<p class="intro">The usual way to add games to a handheld is to pull out the SD card, or have it show up as a USB drive. I tried the USB drive route first and dropped it. Instead, the console runs a small web page you open from your computer's browser.</p>
+<figure><img src="../images/web-nds.jpg" alt="The lilvo web page showing the Nintendo DS game list"><figcaption>The Games tab. Pick a console on the left, drop files in, done. (Shown with placeholder games.)</figcaption></figure>
+<h2>Why not just a USB drive?</h2>
+<ul>
+<li>On this chip, USB drive mode stuttered and dropped data. The web page goes over a USB network link with error correction built in.</li>
+<li>The console stays in charge of its own card. Every write is "temp file, flush, rename", so a computer can never leave the card half-written.</li>
+<li>You only see what matters: games sorted by console. No system files, no logs, nothing to break.</li>
+</ul>
+<h2>What you can do there</h2>
+<ul>
+<li><strong>Add games</strong> to a console by dragging them in. Files the console can't play (like a .zip) are still accepted but marked red, with a reason.</li>
+<li><strong>Covers</strong>: drop a PNG or JPG with the same name as the game. DS games show their built-in icon until you do.</li>
+<li><strong>Rename</strong> a game and its cover, save file and all four save-state slots come along. This was the rule I cared about most.</li>
+<li><strong>Saves</strong>: download all saves as one zip, restore them, or roll back a single game save.</li>
+<li><strong>BIOS</strong> files for PlayStation and GBA (optional), checked against known versions.</li>
+<li><strong>User guide</strong>: the manual lives here. There's no paper.</li>
+</ul>
+<figure><img src="../images/web-update.jpg" alt="System tab of the web page with a finished update"><figcaption>The System tab: drop an update package, the console checks and installs it, then asks to restart.</figcaption></figure>
+<h2>System updates</h2>
+<p>Updates use the same page. You drop in a package, the console checks it, backs up what it's about to replace, installs, and shows the log. Games and saves aren't touched. Since 1.1, this is the only way I update my own prototype.</p>
+<figure><img src="../images/web-guide.jpg" alt="User guide page"><figcaption>The built-in user guide.</figcaption></figure>
+<div class="note">It works on a Mac today. Windows needs a different USB network mode, which I'll test later.</div>
+
+<div class="pn"><a href="2026-10-22-beta-boards.html"><small>← Older</small><b>Ordered the Beta boards</b></a><a class="next" href="2026-10-25-inside-the-boards.html"><small>Newer →</small><b>Inside the boards</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer></body></html>

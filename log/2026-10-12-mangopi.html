@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proving the chip on a dev board — lilvo DS Micro build log</title><meta name="description" content="Before trusting my own boards, I ran the whole software stack on a MangoPi dev board and wired a real screen to it. 75 MHz, 60 fps, no dropped frames."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Oct 2 – 12, 2026</div>
+<h1>Proving the chip on a dev board</h1><div class="meta"><span>Oct 2 – 12, 2026</span><span class="chip hw">hardware</span><span class="chip sw">software</span><span class="chip ms">milestone</span></div>
+
+<p class="intro">The whole design rests on one bet: a cheap, low-power dual-core chip with no GPU can run DS games well on two small SPI screens. Before ordering my own boards, I wanted proof on real hardware. So I bought a MangoPi MQ-Dual, a small dev board with the same Allwinner T113 chip.</p>
+<figure><img src="../images/photos/mango-grid.jpg" alt="MangoPi dev board on bubble wrap, wired to a small screen in a printed frame showing a test grid"><figcaption>Oct 12: the MangoPi (bottom) driving one of the real 2.01" screens through about 20 cm of hand-soldered wire.</figcaption></figure>
+<h2>Step 1: the software, with no screen at all</h2>
+<p>I built the system from mainline Linux rather than a vendor kit, plus a small display library of my own that converts each frame and pushes it out over SPI. The first benchmarks ran with nothing plugged in. The library still sends every frame down the SPI bus, so the numbers already include the real cost of driving a screen.</p>
+<p>The board boots in 10–20 seconds and shows up on my Mac as a USB network device, so I can log in, copy games over and read logs without extra hardware.</p>
+<h2>Step 2: a mistake</h2>
+<p>I also tried a larger RGB screen so I could see the full DS picture. Its connector turned out to be wired in mirror image to the board's. Plugged in the obvious way, it shorted power to ground and a part on the board got hot. Lesson learned: check every new connector's pinout with a multimeter before plugging it in.</p>
+<h2>Step 3: the real screen</h2>
+<p>The board doesn't expose the second SPI bus in a convenient place, so I soldered thin enamelled wire to an empty flash-chip footprint on the board and ran it to the screen. About 20 cm of wire in total, which is a lot for a fast signal.</p>
+<table><tr><th>SPI clock</th><th>What I saw</th></tr>
+<tr><td>30 MHz</td><td>Correct picture, but only about 37 fps reach the screen (27 ms per frame)</td></tr>
+<tr><td>60 MHz</td><td>Stable, no corruption, even on 20 cm of wire. About 56 fps shown</td></tr>
+<tr><td><strong>75 MHz</strong></td><td><strong>60.0 fps, 0 dropped frames</strong>, 11.2 ms to send a frame</td></tr></table>
+<p>At 60 MHz the bus was fast enough on paper. The problem was the emulator: it sometimes waits 50 ms and then delivers several frames at once, and with only about 2 ms of slack the display thread had to drop some. At 75 MHz there's about 4.7 ms of slack, and the drops went to zero.</p>
+<figure class="narrow center"><img src="../images/photos/mango-game.jpg" alt="The small screen in its printed frame showing a DS game's opening scene"><figcaption>A real DS game on the real screen, still on the dev board. (Game: Pokémon White 2.)</figcaption></figure>
+<h2>Step 4: a heavy game</h2>
+<p>For the stress case I used one of the heavier 3D DS games. My first numbers looked bad: 40–50 fps in towns and on the map. It turned out my own debugging tool, which streamed the screen to a web page, was eating about a third of the CPU. With it off, the game ran at a solid 60 in town and in the field, with the CPU at about 113% out of 200%.</p>
+<h2>What it decided</h2>
+<ul>
+<li>The T113 is fast enough. 2D games, my main target, have plenty of headroom.</li>
+<li>75 MHz is the safe default for the screens. A short test on my first own board later showed no corruption at 100 MHz either.</li>
+<li>The cheaper T113-S3, with 128 MB of memory, is enough, as long as the software is written for it.</li>
+<li>Everything from the display library to the boot setup carried straight over to my own boards a week later.</li>
+</ul>
+
+<div class="pn"><a href="2026-09-starting-from-funkey-s.html"><small>← Older</small><b>Starting from FunKey S</b></a><a class="next" href="2026-10-18-first-power-on.html"><small>Newer →</small><b>First power-on</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer></body></html>
