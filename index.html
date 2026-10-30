@@ -244,6 +244,11 @@ footer p{max-width:520px}
 .games-grid .shot video,.games-grid .shot img{width:100%;aspect-ratio:3/4;object-fit:cover;background:#000}
 .games-grid figcaption b{color:var(--text)}
 @media (max-width:900px){.games-grid{grid-template-columns:1fr}}
+.msg.err{color:#FF8C8C}
+.thanks{padding:22px 4px}
+.thanks b{display:block;font-size:22px;color:var(--text)}
+.thanks p{color:var(--text2);margin-top:10px;max-width:440px}
+.thanks .sig{color:var(--acc);font-weight:800}
 </style>
 </head>
 <body>
@@ -530,10 +535,24 @@ footer p{max-width:520px}
 </footer>
 
 <script>
-document.getElementById('f').addEventListener('submit',e=>{
+document.getElementById('f').addEventListener('submit',async e=>{
   e.preventDefault();
-  const m=document.getElementById('m'),em=document.getElementById('email');
-  m.textContent=em.checkValidity()?'Preview only. The form isn’t connected yet.':'Please enter a valid email.';
+  const f=e.target,m=document.getElementById('m'),em=document.getElementById('email'),btn=f.querySelector('button');
+  m.classList.remove('err');
+  if(!em.checkValidity()||!em.value.trim()){m.textContent='That email doesn’t look quite right. Mind checking it?';m.classList.add('err');em.focus();return}
+  const w=f.querySelector('input[name=want]:checked');
+  btn.disabled=true;btn.textContent='Sending…';
+  try{
+    const r=await fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:em.value,want:w?w.value:null})});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.ok) throw new Error(j.error||'x');
+    f.innerHTML=j.returning
+      ?'<div class="thanks"><b>Good to see you again.</b><p>You were already on the list, so I’ve just updated your answer. Thanks for still following along.</p><p class="sig">— Ivan</p></div>'
+      :'<div class="thanks"><b>Thank you, really.</b><p>It means a lot that you’d want to hear about a tiny handheld I’m building at my desk. I’ll write when there’s something worth showing: new boards, real photos, and the day it’s ready. Not before.</p><p class="sig">— Ivan</p></div>';
+  }catch(err){
+    btn.disabled=false;btn.textContent='Subscribe';
+    m.textContent='Hmm, that didn’t go through. Could you try again in a moment?';m.classList.add('err');
+  }
 });
 // pause off-screen videos to save battery
 if('IntersectionObserver' in window){
