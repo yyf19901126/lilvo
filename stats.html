@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0E0F12">
+<title>lilvo · numbers</title>
+<link rel="icon" href="images/lilvo.svg">
+<style>
+@font-face{font-family:Nunito;font-weight:400;src:url(fonts/nunito-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Nunito;font-weight:700;src:url(fonts/nunito-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:Nunito;font-weight:800;src:url(fonts/nunito-latin-800-normal.woff2) format("woff2")}
+:root{--bg:#0E0F12;--surf:#1A1C21;--surf2:#14161A;--line:#2A2D35;--line2:#3A3D47;--text:#F3F1EC;--text2:#C9C8C2;--muted:#A3A3AC;--dim:#8A8B94;--acc:#FF8A3D;--accfg:#1A0E05;--acc-dim:#9A5A30;--sub:#7FD89A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:400 15px/1.5 Nunito,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 60px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header img{height:20px;filter:invert(96%)}
+header h1{font-size:18px;margin:0;font-weight:800;color:var(--text2);padding-left:12px;border-left:1px solid var(--line2)}
+header .gen{margin-left:auto;color:var(--dim);font-size:13px}
+button,input{font:inherit}
+.btn{border:1px solid var(--line2);background:var(--surf);color:var(--text);border-radius:9px;padding:8px 14px;font-weight:800;cursor:pointer;min-height:40px}
+.btn.acc{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
+input{background:var(--bg);border:1px solid var(--line2);color:var(--text);border-radius:9px;padding:9px 12px;min-height:40px}
+.gate{max-width:420px;margin:12vh auto 0;background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:26px}
+.gate h2{margin:0 0 6px;font-size:20px}.gate p{color:var(--muted);margin:0 0 16px}
+.gate form{display:flex;gap:8px}.gate input{flex:1}
+.err{color:#FF8C8C;font-size:14px;margin-top:10px;min-height:1em}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.card .k{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.card .v{font-size:32px;font-weight:800;margin-top:4px;line-height:1.1}
+.card .s{font-size:13px;color:var(--dim);margin-top:4px}
+.panel{background:var(--surf2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:14px}
+.panel h2{font-size:15px;margin:0 0 12px;font-weight:800}
+.panel h2 small{color:var(--dim);font-weight:700;margin-left:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid2 .panel{margin-top:14px}
+.legend{display:flex;gap:16px;font-size:13px;color:var(--muted);margin-bottom:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+svg text{fill:var(--dim);font-size:11px;font-family:Nunito,sans-serif}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:800;padding:6px 8px 8px 0;border-bottom:1px solid var(--line)}
+td{padding:8px 8px 8px 0;border-bottom:1px solid var(--line);color:var(--text2)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:4px;background:var(--acc)}
+.wantrow{display:grid;grid-template-columns:120px 1fr 44px;gap:10px;align-items:center;margin:8px 0;font-size:14px;color:var(--text2)}
+.wantrow .track{background:var(--line);border-radius:4px;height:10px;overflow:hidden}
+.wantrow .n{text-align:right;font-weight:800;color:var(--text)}
+.empty{color:var(--dim);font-size:14px}
+.utm{display:grid;grid-template-columns:1fr 1fr auto;gap:8px}
+.out{margin-top:10px;font-size:13px;color:var(--text2);word-break:break-all;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px;min-height:40px}
+.note{color:var(--dim);font-size:13px;margin-top:10px}
+.hide{display:none!important}
+@media (max-width:800px){.cards{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.utm{grid-template-columns:1fr}.card .v{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><img src="images/lilvo.svg" alt="lilvo"><h1>Numbers</h1><span class="gen" id="gen"></span>
+    <button class="btn hide" id="refresh" type="button">Refresh</button><button class="btn hide" id="lock" type="button">Lock</button></header>
+
+  <div class="gate" id="gate">
+    <h2>Private dashboard</h2>
+    <p>Enter the dashboard key. It's remembered on this device only.</p>
+    <form id="kf"><input id="key" type="password" autocomplete="current-password" placeholder="Key" required><button class="btn acc" type="submit">Open</button></form>
+    <div class="err" id="kerr"></div>
+  </div>
+
+  <main id="dash" class="hide">
+    <div class="cards">
+      <div class="card"><div class="k">Visitors</div><div class="v" id="tv">–</div><div class="s" id="tv7"></div></div>
+      <div class="card"><div class="k">Subscribers</div><div class="v" id="ts">–</div><div class="s" id="ts7"></div></div>
+      <div class="card"><div class="k">Visitor → subscriber</div><div class="v" id="tc">–</div><div class="s">subscribers ÷ visitors</div></div>
+      <div class="card"><div class="k">Avg. interest</div><div class="v" id="tw">–</div><div class="s" id="tw2">of 5, from subscribers who answered</div></div>
+    </div>
+
+    <div class="panel"><h2>Last 30 days</h2>
+      <div class="legend"><span><i style="background:var(--acc)"></i>Visitors</span><span><i style="background:var(--sub)"></i>New subscribers</span></div>
+      <div id="chart"></div></div>
+
+    <div class="grid2">
+      <div class="panel"><h2>Where people come from</h2><div id="src"></div></div>
+      <div class="panel"><h2>How much they want one <small>1–5</small></h2><div id="want"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><h2>Campaigns <small>utm_campaign</small></h2><div id="camp"></div></div>
+      <div class="panel"><h2>Countries</h2><div id="ctry"></div></div>
+    </div>
+    <div class="panel"><h2>Top pages</h2><div id="pages"></div></div>
+
+    <div class="panel"><h2>Make a tracked link</h2>
+      <div class="utm"><input id="us" placeholder="source, e.g. reddit" value="reddit"><input id="uc" placeholder="campaign, e.g. post3"><button class="btn acc" id="ub" type="button">Copy link</button></div>
+      <div class="out" id="uo"></div>
+      <p class="note">Use a tracked link in each post so this page can tell which post brought people in. Links without one are still sorted by where they came from (Reddit, search, direct…).</p>
+    </div>
+    <p class="note">Visitors are counted once per person per day, without cookies; the total adds up those daily counts. Subscribers from before Nov 1 have no source recorded and show as "unknown". Times are UTC.</p>
+  </main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct=(a,b)=>b?(a/b*100).toFixed(a/b<.1?1:0)+'%':'–';
+let KEY=''; try{KEY=localStorage.getItem('lv_stats_key')||''}catch(e){}
+async function load(){
+  const r=await fetch('/api/stats',{headers:{'x-stats-key':KEY},cache:'no-store'});
+  if(r.status===401){try{localStorage.removeItem('lv_stats_key')}catch(e){} show(false,'That key didn’t work.');return}
+  const d=await r.json(); if(!d.ok){show(false,'Couldn’t load the numbers.');return}
+  show(true); render(d);
+}
+function show(ok,msg){$('gate').classList.toggle('hide',ok);$('dash').classList.toggle('hide',!ok);$('refresh').classList.toggle('hide',!ok);$('lock').classList.toggle('hide',!ok);$('kerr').textContent=msg||''}
+function table(rows,cols){if(!rows.length)return '<p class="empty">Nothing yet.</p>';
+  const max=Math.max(1,...rows.map(r=>r[cols[1].k]||0));
+  return '<table><tr>'+cols.map(c=>`<th class="${c.n?'n':''}">${c.t}</th>`).join('')+'<th style="width:30%"></th></tr>'+rows.map(r=>'<tr>'+cols.map(c=>`<td class="${c.n?'n':''}">${esc(c.f?c.f(r):r[c.k])}</td>`).join('')+`<td><div class="bar" style="width:${(r[cols[1].k]||0)/max*100}%"></div></td></tr>`).join('')+'</table>'}
+function chart(days){
+  const W=1000,H=200,P=24,n=days.length,bw=(W-P)/n;const mv=Math.max(1,...days.map(d=>d.visitors)),ms=Math.max(1,...days.map(d=>d.subs));
+  let g='';days.forEach((d,i)=>{const x=P+i*bw;const hv=(H-30)*d.visitors/mv;const hs=(H-30)*d.subs/ms;
+    g+=`<rect x="${x+1}" y="${H-20-hv}" width="${bw*0.55}" height="${hv}" rx="2" fill="#FF8A3D"><title>${d.day}: ${d.visitors} visitors</title></rect>`;
+    if(d.subs)g+=`<rect x="${x+1+bw*0.58}" y="${H-20-hs}" width="${bw*0.3}" height="${hs}" rx="2" fill="#7FD89A"><title>${d.day}: ${d.subs} new subscribers</title></rect>`;
+    if(i%5===0||i===n-1)g+=`<text x="${x}" y="${H-4}">${d.day.slice(5)}</text>`});
+  g+=`<text x="0" y="12">${mv}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Visitors and new subscribers per day">${g}</svg>`}
+function render(d){
+  const t=d.totals;$('tv').textContent=t.visitors;$('tv7').textContent=t.visitors7+' in the last 7 days';
+  $('ts').textContent=t.subscribers;$('ts7').textContent=t.subscribers7+' in the last 7 days';
+  $('tc').textContent=pct(t.subscribers,t.visitors);
+  const ans=d.want.filter(w=>w.want!=null),na=ans.reduce((a,w)=>a+w.n,0);
+  $('tw').textContent=na?(ans.reduce((a,w)=>a+w.want*w.n,0)/na).toFixed(1):'–';$('tw2').textContent=na?`of 5 · ${na} answered`:'no answers yet';
+  $('chart').innerHTML=chart(d.daily);
+  $('src').innerHTML=table(d.bySource,[{t:'Source',k:'src'},{t:'Visitors',k:'visitors',n:1},{t:'Subs',k:'subs',n:1},{t:'Rate',n:1,f:r=>pct(r.subs,r.visitors)}]);
+  $('camp').innerHTML=table(d.byCampaign,[{t:'Campaign',k:'camp'},{t:'Visitors',k:'visitors',n:1},{t:'Subs',k:'subs',n:1},{t:'Rate',n:1,f:r=>pct(r.subs,r.visitors)}]);
+  $('ctry').innerHTML=table(d.countries,[{t:'Country',k:'country',f:r=>r.country||'?'},{t:'Visitors',k:'visitors',n:1}]);
+  $('pages').innerHTML=table(d.pages,[{t:'Page',k:'path'},{t:'Views',k:'views',n:1}]);
+  const lab={1:'1 · Just curious',2:'2',3:'3',4:'4',5:'5 · Day one'},cnt={};d.want.forEach(w=>cnt[w.want==null?'none':w.want]=w.n);
+  const mx=Math.max(1,...Object.values(cnt));
+  $('want').innerHTML=[5,4,3,2,1,'none'].map(k=>`<div class="wantrow"><span>${k==='none'?'No answer':lab[k]}</span><div class="track"><div class="bar" style="width:${(cnt[k]||0)/mx*100}%;height:10px;${k==='none'?'background:var(--line2)':''}"></div></div><span class="n">${cnt[k]||0}</span></div>`).join('');
+  $('gen').textContent='Updated '+new Date(d.generated).toLocaleString();
+}
+$('kf').addEventListener('submit',e=>{e.preventDefault();KEY=$('key').value.trim();try{localStorage.setItem('lv_stats_key',KEY)}catch(e){}load()});
+$('refresh').onclick=load;
+$('lock').onclick=()=>{try{localStorage.removeItem('lv_stats_key')}catch(e){}KEY='';$('key').value='';show(false)};
+function utm(){const s=$('us').value.trim().toLowerCase().replace(/[^a-z0-9._-]/g,''),c=$('uc').value.trim().toLowerCase().replace(/[^a-z0-9._-]/g,'');
+  const u='https://lilvo.pages.dev/'+(s?'?utm_source='+s+(c?'&utm_campaign='+c:''):'');$('uo').textContent=u;return u}
+$('us').oninput=$('uc').oninput=utm;utm();
+$('ub').onclick=async()=>{const u=utm();try{await navigator.clipboard.writeText(u);$('ub').textContent='Copied';setTimeout(()=>$('ub').textContent='Copy link',1500)}catch(e){}};
+if(KEY)load();
+</script>
+</body>
+</html>

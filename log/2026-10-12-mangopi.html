@@ -29,7 +29,17 @@
 <li>Everything from the display library to the boot setup carried straight over to my own boards a week later.</li>
 </ul>
 
-<div class="pn"><a href="2026-09-starting-from-funkey-s.html"><small>← Older</small><b>Starting from FunKey S</b></a><a class="next" href="2026-10-18-first-power-on.html"><small>Newer →</small><b>First power-on</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>
+<div class="pn"><a href="2026-09-starting-from-funkey-s.html"><small>← Older</small><b>Starting from FunKey S</b></a><a class="next" href="2026-10-18-first-power-on.html"><small>Newer →</small><b>First power-on</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design. Visits are counted anonymously, with no cookies and no third-party trackers.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>// anonymous visit counting: no cookies; remembers only where you first came from (on your own device)
+(function(){try{var h=location.hostname;if(!/\.pages\.dev$|lilvo\./.test(h)||navigator.webdriver)return;
+var p=new URLSearchParams(location.search),src=p.get('utm_source'),camp=p.get('utm_campaign');
+if(!src&&document.referrer){try{var r=new URL(document.referrer).hostname.replace(/^www\.|^old\.|^m\./,'');
+if(r!==h){src=/reddit\./.test(r)?'reddit':/google\.|bing\.|duckduckgo\.|baidu\.|yahoo\./.test(r)?'search':/t\.co$|twitter\.|x\.com$/.test(r)?'x':/youtube\./.test(r)?'youtube':/github\./.test(r)?'github':/discord/.test(r)?'discord':r}}catch(e){}}
+var ss=null;try{ss=JSON.parse(sessionStorage.getItem('lv_s')||'null')}catch(e){}
+if(src){ss={src:src,camp:camp};try{sessionStorage.setItem('lv_s',JSON.stringify(ss))}catch(e){}}
+var cur=ss||{src:'direct',camp:null};
+try{if(!localStorage.getItem('lv_first'))localStorage.setItem('lv_first',JSON.stringify(cur))}catch(e){}
+var path=location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'')||'/';
+fetch('/api/hit',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({path:path,src:cur.src,camp:cur.camp}),keepalive:true}).catch(function(){});}catch(e){}})();
 // mobile menu
 (function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
 b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});

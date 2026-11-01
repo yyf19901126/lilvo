@@ -536,7 +536,7 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
       <tr><td>Size</td><td>85 × 46 × 18 mm closed</td></tr>
       <tr><td>Processor</td><td>Allwinner T113, dual-core Cortex-A7 @ 1.2 GHz</td></tr>
       <tr><td>Screens</td><td>2 × IPS, 256 × 192 shown on each</td></tr>
-      <tr><td>Touch</td><td>Bottom screen, capacitive<span class="tbd">UNDECIDED</span></td></tr>
+      <tr><td>Touch</td><td>Bottom screen, capacitive</td></tr>
       <tr><td>Controls</td><td>D-pad, A B X Y, L / R, Start, Select, Power</td></tr>
       <tr><td>Battery</td><td>1200 mAh Li-Po</td></tr>
       <tr><td>Storage</td><td>microSD, inside the shell</td></tr>
@@ -557,9 +557,10 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
       <details><summary>Can I buy one?</summary><p>Not yet. The goal is to take it all the way to mass production, and I'm doing everything I can to get there. The Beta boards are the next big step. When there's news about availability, it'll be here and on Reddit first.</p></details>
       <details><summary>How much would it cost?</summary><p>I don't know yet, and I'd rather not guess.</p></details>
       <details><summary>How well does it run DS games?</summary><p>2D games are the target and run at full speed in my testing. Heavy 3D games run, but skip frames. Size and battery life come before raw power.</p></details>
-      <details><summary>Touch screen or not?</summary><p>The current prototype has touch on the bottom screen. I'm also exploring an even smaller version without it. If you have an opinion, tell me on Reddit.</p></details>
+      <details><summary>Does it have a touch screen?</summary><p>Yes. Like the original DS, the bottom screen is a capacitive touch screen, so DS games that need the stylus work. The system's own menus use it too.</p></details>
       <details><summary>Why no SNES or Mega Drive?</summary><p>The best emulators for those have non-commercial licences, so I've left them out for now.</p></details>
-      <details><summary>Will it be open source?</summary><p>Yes. Hardware under CERN-OHL-S-2.0, and the system with its source. FunKey S is credited, and its non-commercial terms are kept where its parts are reused.</p></details>
+      <details><summary>Will it be open source?</summary><p>That's the plan: the hardware design files and the lilvo system with its source. A few circuit and mechanical ideas come from the open-source <a href="https://github.com/FunKey-Project/FunKey-S-Hardware" rel="noopener">FunKey S hardware</a>, which is published under CC BY-SA 4.0. It will be credited, and before anything is published I'm going through every reused part to make sure each one is shared under the right terms.</p></details>
+      <details><summary>Which emulators does it use?</summary><p>The prototype runs DS games with DraStic and the other systems with open-source libretro cores. Before any sale, I'll confirm the licence and redistribution terms for every emulator that would ship on the device. Anything that can't be shipped, won't be.</p></details>
     </div>
   </div>
 </section>
@@ -597,7 +598,7 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 <footer>
   <div class="wrap">
-    <p>lilvo DS Micro is in development and not available yet; the goal is a production run. Images marked "Render" show the current design; images marked "Real" are from my desk.</p>
+    <p>lilvo DS Micro is in development and not available yet; the goal is a production run. Images marked "Render" show the current design; images marked "Real" are from my desk. Visits are counted anonymously, with no cookies and no third-party trackers.</p>
     <p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p>
   </div>
 </footer>
@@ -611,7 +612,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
   const w=f.querySelector('input[name=want]:checked');
   btn.disabled=true;btn.textContent='Sending…';
   try{
-    const r=await fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:em.value,want:w?w.value:null})});
+    const r=await fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(Object.assign({email:em.value,want:w?w.value:null},(function(){try{return JSON.parse(localStorage.getItem('lv_first')||sessionStorage.getItem('lv_s')||'{}')||{}}catch(e){return{}}})()))});
     const j=await r.json().catch(()=>({}));
     if(!r.ok||!j.ok) throw new Error(j.error||'x');
     f.innerHTML=j.returning
@@ -623,6 +624,17 @@ document.getElementById('f').addEventListener('submit',async e=>{
   }
 });
 
+// anonymous visit counting: no cookies; remembers only where you first came from (on your own device)
+(function(){try{var h=location.hostname;if(!/\.pages\.dev$|lilvo\./.test(h)||navigator.webdriver)return;
+var p=new URLSearchParams(location.search),src=p.get('utm_source'),camp=p.get('utm_campaign');
+if(!src&&document.referrer){try{var r=new URL(document.referrer).hostname.replace(/^www\.|^old\.|^m\./,'');
+if(r!==h){src=/reddit\./.test(r)?'reddit':/google\.|bing\.|duckduckgo\.|baidu\.|yahoo\./.test(r)?'search':/t\.co$|twitter\.|x\.com$/.test(r)?'x':/youtube\./.test(r)?'youtube':/github\./.test(r)?'github':/discord/.test(r)?'discord':r}}catch(e){}}
+var ss=null;try{ss=JSON.parse(sessionStorage.getItem('lv_s')||'null')}catch(e){}
+if(src){ss={src:src,camp:camp};try{sessionStorage.setItem('lv_s',JSON.stringify(ss))}catch(e){}}
+var cur=ss||{src:'direct',camp:null};
+try{if(!localStorage.getItem('lv_first'))localStorage.setItem('lv_first',JSON.stringify(cur))}catch(e){}
+var path=location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'')||'/';
+fetch('/api/hit',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({path:path,src:cur.src,camp:cur.camp}),keepalive:true}).catch(function(){});}catch(e){}})();
 // mobile menu
 (function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
 b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
