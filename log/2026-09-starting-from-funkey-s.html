@@ -1,23 +1,17 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Starting from FunKey S — lilvo DS Micro build log</title><meta name="description" content="I knew very little about hardware. I picked a chip, two small screens and a shape, then spent a month on boards, hinges and printed shells."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+<title>Inspired by FunKey S — lilvo DS Micro build log</title><meta name="description" content="I knew very little about hardware. I picked a chip, two small screens and a shape, then spent a month on boards, hinges and printed shells."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 <ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
 <main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Sep 2026</div>
-<h1>Starting from FunKey S</h1><div class="meta"><span>Sep 2026</span><span class="chip ms">milestone</span></div>
+<h1>Inspired by FunKey S</h1><div class="meta"><span>Sep 2026</span><span class="chip ms">milestone</span></div>
 
-<p class="intro">I love tiny handhelds, and I've owned a FunKey S: a keychain-sized, open-source clamshell. This project started with a simple question: what if it were a bit wider, with a screen on each half?</p>
+<p class="intro">I love tiny handhelds, and I've owned a FunKey S: a keychain-sized clamshell that proved a real game console can be tiny. It became the spirit behind this project, which started with a simple question: what would that idea look like with a screen on each half?</p>
 <figure><img src="../images/render-open170.jpg" alt="Render of the device fully open"><figcaption>Where the design has got to (render, v13.17).</figcaption></figure>
 <h2>Priorities</h2>
 <p>From day one the order was: <strong>size</strong>, then <strong>battery life</strong>, then two screens, then 2D games at full speed, then everything else. Every trade-off since has been decided by that list.</p>
 <h2>The first big change</h2>
-<p>My first plan used a quad-core chip with a small FPGA to split one video output across two screens. It worked on paper and was far too complicated for one person. I switched to a simpler chip that drives each screen directly over SPI, the same way FunKey S drives its one screen. No FPGA, far fewer wires through the hinge, and a board I could realistically get made.</p>
-<h2>What it borrows from FunKey S</h2>
-<ul>
-<li>The button stack and button-reading chip.</li>
-<li>Side-mounted shoulder buttons.</li>
-<li>A flexible cable wound around the hinge pin.</li>
-<li>Close the lid to save and power off.</li>
-</ul>
-<p>The boards, enclosure and software are new. FunKey S's hardware is open source under CC BY-SA 4.0; it's credited, and before I publish my own files I'll go through every reused part to make sure each is shared under the right terms.</p>
+<p>My first plan used a quad-core chip with a small FPGA to split one video output across two screens. It worked on paper and was far too complicated for one person. I switched to a simpler chip that drives each screen directly over SPI,; no FPGA, far fewer wires through the hinge, and a board I could realistically get made.</p>
+<h2>Inspiration, not a copy</h2>
+<p>What I took from FunKey S is an attitude: make it as small as it can possibly be, then make it pleasant to use. A few of my design choices are nods to it, like closing the lid to save and a single menu key. But the chip, the circuits, the boards, the enclosure and the software are all my own, designed from scratch for two screens.</p>
 <h2>A month of iterations</h2>
 <p>By the end of September the enclosure had gone through about ten versions, each one 3D-printed or checked in a viewer for collisions. The first main board design was reviewed by a paid human expert before anything was ordered. I don't know much about hardware, so I lean on reviews and on testing everything I can.</p>
 
