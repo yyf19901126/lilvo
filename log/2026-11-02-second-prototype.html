@@ -1,0 +1,48 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The second prototype, assembled — lilvo DS Micro build log</title><meta name="description" content="The new main board is still on its way, but the new shell, hinge cable, speaker and lid board arrived. After some filing and sanding, it all went together and works. Everything except L / R."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Nov 2, 2026</div>
+<h1>The second prototype, assembled</h1><div class="meta"><span>Nov 2, 2026</span><span class="chip hw">hardware</span><span class="chip ms">milestone</span></div>
+
+<p class="intro">The new main board hasn't arrived yet, but almost everything around it has: a new shell, a new hinge cable, a new speaker and a new small board in the lid. I couldn't wait, so I built a second prototype around the board I already had.</p>
+<figure class="narrow center"><video src="../images/photos/clip-assembled.mp4" poster="../images/photos/clip-assembled_poster.jpg" controls muted loop playsinline preload="metadata"></video><figcaption>Closed, opened, and the home screen. No tape this time.</figcaption></figure>
+<h2>What's new in this one</h2>
+<ul>
+<li><strong>The shell.</strong> The new sample parts, in black. It finally feels like one solid object instead of parts held together.</li>
+<li><strong>The hinge cable.</strong> The flat cable that carries the top screen through the hinge.</li>
+<li><strong>The speaker.</strong></li>
+<li><strong>The lid board</strong>, the small adapter board inside the lid.</li>
+</ul>
+<h2>Getting it together</h2>
+<p>It didn't just snap together. Samples are never exact, and a few spots needed filing and sanding before the parts would close properly. But it went together in the end, and it works: both screens, the speaker, the buttons, closing the lid to save, and opening it to carry on.</p>
+<div class="pair"><figure><video src="../images/photos/clip-lid-resume.mp4" poster="../images/photos/clip-lid-resume_poster.jpg" controls muted loop playsinline preload="metadata"></video><figcaption>Save, close the lid, open it, carry on.</figcaption></figure><figure><video src="../images/photos/clip-gba-panel.mp4" poster="../images/photos/clip-gba-panel_poster.jpg" controls muted loop playsinline preload="metadata"></video><figcaption>A GBA game, with save, load and 2× speed on the touch screen below.</figcaption></figure></div>
+<h2>What doesn't work yet</h2>
+<ul>
+<li><strong>L and R.</strong> The shoulder buttons don't work yet in this build.</li>
+</ul>
+<h2>What I'm changing</h2>
+<p>Building it by hand showed me which parts are harder to assemble than they should be. The hinge spring and its little stopper are fiddly to get in, the guide around the lid board is too short, so the board can slip while the shell closes, and Start, Select and POWER sit a little too low to press comfortably. All of these are already changed in the next version of the shell.</p>
+<figure class="narrow center"><img src="../images/photos/proto2-closed.jpg" alt="The closed prototype with the lilvo logo on the lid"><figcaption>Closed, with the logo on the lid.</figcaption></figure>
+<div class="note">Next: the new main board. When it arrives, it goes into this same shell.</div>
+
+<div class="pn"><a href="2026-10-28-themes-and-neon.html"><small>← Older</small><b>Themes, and NEON on the real thing</b></a><span></span></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design. Visits are counted anonymously, with no cookies and no third-party trackers.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>// anonymous visit counting: no cookies; remembers only where you first came from (on your own device)
+(function(){try{var h=location.hostname;if(!/\.pages\.dev$|lilvo\./.test(h)||navigator.webdriver)return;
+var p=new URLSearchParams(location.search),src=p.get('utm_source'),camp=p.get('utm_campaign');
+if(!src&&document.referrer){try{var r=new URL(document.referrer).hostname.replace(/^www\.|^old\.|^m\./,'');
+if(r!==h){src=/reddit\./.test(r)?'reddit':/google\.|bing\.|duckduckgo\.|baidu\.|yahoo\./.test(r)?'search':/t\.co$|twitter\.|x\.com$/.test(r)?'x':/youtube\./.test(r)?'youtube':/github\./.test(r)?'github':/discord/.test(r)?'discord':r}}catch(e){}}
+var ss=null;try{ss=JSON.parse(sessionStorage.getItem('lv_s')||'null')}catch(e){}
+if(src){ss={src:src,camp:camp};try{sessionStorage.setItem('lv_s',JSON.stringify(ss))}catch(e){}}
+var cur=ss||{src:'direct',camp:null};
+try{if(!localStorage.getItem('lv_first'))localStorage.setItem('lv_first',JSON.stringify(cur))}catch(e){}
+var path=location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'')||'/';
+fetch('/api/hit',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({path:path,src:cur.src,camp:cur.camp}),keepalive:true}).catch(function(){});}catch(e){}})();
+// mobile menu
+(function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
+b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false')})});})();
+// play videos only while visible (saves data and battery on phones); respect reduced motion
+(function(){var vs=document.querySelectorAll('video:not([controls])');var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
+vs.forEach(function(v){io.observe(v)});})();
+</script></body></html>
