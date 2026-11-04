@@ -76,6 +76,9 @@ nav ul a:hover{color:var(--text);text-decoration:none}
 .real-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
 .real-grid .shot img,.real-grid .shot video{width:100%;aspect-ratio:3/4;object-fit:cover}
 figcaption{font-size:14px;color:var(--muted);margin-top:10px}
+.size-wide{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.size-wide .shot img{width:100%;aspect-ratio:4/3;object-fit:cover}
+@media (max-width:900px){.size-wide{grid-template-columns:1fr}}
 
 /* device */
 .dev-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:40px}
@@ -331,7 +334,7 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 <header class="hero" id="top">
   <div class="wrap">
-    <div class="about"><b>What this page is:</b> my project log for <b>lilvo DS Micro</b>, a tiny dual-screen handheld I'm building on my own. It's here so anyone following along can see what it is, how it works and where it's at. It isn't available yet; the goal is a production run, and I'm doing everything I can to get there. <a href="log/2026-11-02-second-prototype.html">Latest update: Nov 2 →</a></div>
+    <div class="about"><b>What this page is:</b> my project log for <b>lilvo DS Micro</b>, a tiny dual-screen handheld I'm building on my own. It's here so anyone following along can see what it is, how it works and where it's at. It isn't available yet; the goal is a production run, and I'm doing everything I can to get there. <a href="log/2026-11-04-how-small.html">Latest update: Nov 4 →</a></div>
     <div class="hero-grid">
       <div>
         <span class="pill"><i></i>Prototype · working towards production</span>
@@ -367,6 +370,25 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
       <figure style="margin:0"><div class="shot"><img src="images/photos/proto-settings.jpg" loading="lazy" alt="First prototype held in hand, both screens on, settings menu visible"><span class="tag real">Real</span></div><figcaption>Two weeks earlier: the first prototype, printed shell and tape.</figcaption></figure>
     </div>
     <p class="swipe">Swipe for more</p>
+  </div>
+</section>
+
+<section id="size">
+  <div class="wrap">
+    <div class="label">How small</div>
+    <h2>Smaller than you'd think.</h2>
+    <p class="lead">Numbers don't really get it across, so here it is next to things you already know: a phone, my other handhelds and a few keychain consoles. All photos of the second prototype.</p>
+    <div class="real-grid">
+      <figure style="margin:0"><div class="shot"><img src="images/photos/size-hand-open.jpg" loading="lazy" alt="The prototype open in one hand, a DS game on both screens"><span class="tag real">Real</span></div><figcaption>Open in one hand, mid-game.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><img src="images/photos/size-minis-palm.jpg" loading="lazy" alt="The closed prototype in a palm, with keychain-sized consoles next to it"><span class="tag real">Real</span></div><figcaption>Closed, in my palm, with keychain consoles for scale.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><img src="images/photos/size-side.jpg" loading="lazy" alt="The closed prototype seen from the side, between finger and thumb"><span class="tag real">Real</span></div><figcaption>From the side: 18 mm closed.</figcaption></figure>
+    </div>
+    <p class="swipe">Swipe for more</p>
+    <div class="size-wide">
+      <figure style="margin:0"><div class="shot"><img src="images/photos/size-minis-open.jpg" loading="lazy" alt="The prototype open and running, between two keychain-sized consoles"><span class="tag real">Real</span></div><figcaption>Running, next to keychain consoles.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><img src="images/photos/size-collection.jpg" loading="lazy" alt="The closed prototype among a dozen other handheld consoles on a desk"><span class="tag real">Real</span></div><figcaption>With the rest of my handhelds.</figcaption></figure>
+    </div>
+    <p style="margin-top:22px"><a href="log/2026-11-04-how-small.html">All the size photos →</a></p>
   </div>
 </section>
 
@@ -516,9 +538,9 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     <h2>Latest updates.</h2>
     <p class="lead">Each update is a short post with photos. Here are the three newest; the full timeline is on its own page.</p>
     <div class="teasers">
+      <a class="teaser" href="log/2026-11-04-how-small.html"><img src="images/photos/size-minis-open.jpg" loading="lazy" alt=""><div><span class="d">Nov 4</span><h3>How small it really is</h3><p>A dozen photos of the second prototype next to a phone, other handhelds and keychain consoles.</p></div></a>
       <a class="teaser" href="log/2026-11-02-second-prototype.html"><img src="images/photos/proto2-open.jpg" loading="lazy" alt=""><div><span class="d">Nov 2</span><h3>The second prototype, assembled</h3><p>New shell, hinge cable, speaker and lid board. Some filing and sanding, and it works. Everything except L / R.</p></div></a>
       <a class="teaser" href="log/2026-10-28-themes-and-neon.html"><img src="images/photos/clip-neon-real_poster.jpg" loading="lazy" alt=""><div><span class="d">Oct 28</span><h3>Themes, and NEON on the real thing</h3><p>Four themes that change the layout and how consoles are drawn, not just the colours.</p></div></a>
-      <a class="teaser" href="log/2026-10-26-lilvo-1-0.html"><img class="px" src="images/ui-home.png" loading="lazy" alt=""><div><span class="d">Oct 26</span><h3>lilvo system 1.0</h3><p>Launcher, 12 consoles, save states, close-the-lid saving and the web manager.</p></div></a>
     </div>
     <p class="swipe">Swipe for more</p>
     <a class="btn acc" href="log.html" style="margin-top:28px">See the full timeline →</a>
