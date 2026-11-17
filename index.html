@@ -75,6 +75,7 @@ nav ul a:hover{color:var(--text);text-decoration:none}
 /* real photos strip */
 .real-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
 .real-grid .shot img,.real-grid .shot video{width:100%;aspect-ratio:3/4;object-fit:cover}
+.real-grid.wide .shot img,.real-grid.wide .shot video{aspect-ratio:4/3}
 figcaption{font-size:14px;color:var(--muted);margin-top:10px}
 .size-wide{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
 .size-wide .shot img{width:100%;aspect-ratio:4/3;object-fit:cover}
@@ -334,7 +335,7 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 <header class="hero" id="top">
   <div class="wrap">
-    <div class="about"><b>What this page is:</b> my project log for <b>lilvo DS Micro</b>, a tiny dual-screen handheld I'm building on my own. It's here so anyone following along can see what it is, how it works and where it's at. It isn't available yet; the goal is a production run, and I'm doing everything I can to get there. <a href="log/2026-11-04-how-small.html">Latest update: Nov 4 →</a></div>
+    <div class="about"><b>What this page is:</b> my project log for <b>lilvo DS Micro</b>, a tiny dual-screen handheld I'm building on my own. It's here so anyone following along can see what it is, how it works and where it's at. It isn't available yet; the goal is a production run, and I'm doing everything I can to get there. <a href="log/2026-11-16-first-full-prototype.html">Latest update: Nov 16 →</a></div>
     <div class="hero-grid">
       <div>
         <span class="pill"><i></i>Prototype · working towards production</span>
@@ -363,11 +364,11 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
   <div class="wrap">
     <div class="label">From my desk</div>
     <h2>Not renders. The real thing, so far.</h2>
-    <p class="lead">The second prototype: new shell, new hinge cable, new speaker and new lid board, built around the board I already had. No tape this time. Everything works except L / R.</p>
-    <div class="real-grid">
-      <figure style="margin:0"><div class="shot"><video preload="none" src="images/photos/clip-assembled.mp4" poster="images/photos/clip-assembled_poster.jpg" muted loop playsinline></video><span class="tag real">Real</span></div><figcaption>The second prototype, Nov 2. This is the size it really is.</figcaption></figure>
-      <figure style="margin:0"><div class="shot"><img src="images/photos/proto2-closed.jpg" loading="lazy" alt="The closed prototype in hand, lilvo logo on the lid"><span class="tag real">Real</span></div><figcaption>Closed. The logo is part of the shell.</figcaption></figure>
-      <figure style="margin:0"><div class="shot"><img src="images/photos/proto-settings.jpg" loading="lazy" alt="First prototype held in hand, both screens on, settings menu visible"><span class="tag real">Real</span></div><figcaption>Two weeks earlier: the first prototype, printed shell and tape.</figcaption></figure>
+    <p class="lead">The first fully working prototype, Nov 16: new main board, white shell, and everything works, L / R and the lid included. Hand-assembled and still rough, but I play on it every day.</p>
+    <div class="real-grid wide">
+      <figure style="margin:0"><div class="shot"><video preload="none" src="images/photos/clip-v3-lid.mp4" poster="images/photos/clip-v3-lid_poster.jpg" muted loop playsinline></video><span class="tag real">Real</span></div><figcaption>Open the lid to turn it on. Close it to save and turn off.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><video preload="none" src="images/photos/clip-v3-ds.mp4" poster="images/photos/clip-v3-ds_poster.jpg" muted loop playsinline></video><span class="tag real">Real · DS</span></div><figcaption>A DS game on both screens, moves tapped on the touch screen.</figcaption></figure>
+      <figure style="margin:0"><div class="shot"><img src="images/photos/v3-dsi.jpg" loading="lazy" alt="The closed prototype next to a DSi"><span class="tag real">Real</span></div><figcaption>Next to a DSi. About as thick, everything else smaller.</figcaption></figure>
     </div>
     <p class="swipe">Swipe for more</p>
   </div>
@@ -538,9 +539,9 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     <h2>Latest updates.</h2>
     <p class="lead">Each update is a short post with photos. Here are the three newest; the full timeline is on its own page.</p>
     <div class="teasers">
-      <a class="teaser" href="log/2026-11-04-how-small.html"><img src="images/photos/size-minis-open.jpg" loading="lazy" alt=""><div><span class="d">Nov 4</span><h3>How small it really is</h3><p>A dozen photos of the second prototype next to a phone, other handhelds and keychain consoles.</p></div></a>
-      <a class="teaser" href="log/2026-11-02-second-prototype.html"><img src="images/photos/proto2-open.jpg" loading="lazy" alt=""><div><span class="d">Nov 2</span><h3>The second prototype, assembled</h3><p>New shell, hinge cable, speaker and lid board. Some filing and sanding, and it works. Everything except L / R.</p></div></a>
-      <a class="teaser" href="log/2026-10-28-themes-and-neon.html"><img src="images/photos/clip-neon-real_poster.jpg" loading="lazy" alt=""><div><span class="d">Oct 28</span><h3>Themes, and NEON on the real thing</h3><p>Four themes that change the layout and how consoles are drawn, not just the colours.</p></div></a>
+      <a class="teaser" href="log/2026-11-16-first-full-prototype.html"><img src="images/photos/clip-v3-lid_poster.jpg" loading="lazy" alt=""><div><span class="d">Nov 16</span><h3>The first fully working one</h3><p>New board, white shell, and everything works: screens, touch, L / R, the lid, sound.</p></div></a>
+      <a class="teaser" href="log/2026-11-15-lilvo-1-6.html"><img src="images/photos/v3-battery.jpg" loading="lazy" alt=""><div><span class="d">Nov 3 – 16</span><h3>lilvo 1.6: a battery you can trust</h3><p>The "1000 mAh" battery held 590. The readout is calibrated now, and updates install in one safe step.</p></div></a>
+      <a class="teaser" href="log/2026-11-11-revd8-boards.html"><img src="images/photos/reve1-thermal-relief.png" loading="lazy" alt=""><div><span class="d">Nov 9 – 16</span><h3>Two new boards that wouldn't start</h3><p>A week of measuring and an X-ray later: the chip's centre pad wasn't soldered.</p></div></a>
     </div>
     <p class="swipe">Swipe for more</p>
     <a class="btn acc" href="log.html" style="margin-top:28px">See the full timeline →</a>
@@ -576,7 +577,8 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
       <h2>Things people ask.</h2>
     </div>
     <div>
-      <details><summary>Can I buy one?</summary><p>Not yet. The goal is to take it all the way to mass production, and I'm doing everything I can to get there. The Beta boards are the next big step. When there's news about availability, it'll be here and on Reddit first.</p></details>
+      <details><summary>Can I buy one?</summary><p>Not yet. The goal is to take it all the way to mass production, and I'm doing everything I can to get there. The first fully working prototype is done; the next board and shell are about making it easy and reliable to build. When there's news about availability, it'll be here and on Reddit first.</p></details>
+      <details><summary>How long does the battery last?</summary><p>Still measuring. My first test battery was sold as 1000 mAh but held only about 590, and it gave just under 3 hours of DS games (about 0.7 W). The current prototype has a 1200 mAh battery that hasn't had its full test yet.</p></details>
       <details><summary>How much would it cost?</summary><p>I don't know yet, and I'd rather not guess.</p></details>
       <details><summary>How well does it run DS games?</summary><p>2D games are the target and run at full speed in my testing. Heavy 3D games run, but skip frames. Size and battery life come before raw power.</p></details>
       <details><summary>Does it have a touch screen?</summary><p>Yes. Like the original DS, the bottom screen is a capacitive touch screen, so DS games that need the stylus work. The system's own menus use it too.</p></details>

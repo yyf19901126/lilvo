@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two new boards that wouldn&#x27;t start — lilvo DS Micro build log</title><meta name="description" content="Both RevD.8 boards came back dead. A week of measuring, a forum thread and an X-ray later: the main chip&#x27;s big centre pad wasn&#x27;t soldered. The fix is in RevE.1."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Nov 9 – 16, 2026</div>
+<h1>Two new boards that wouldn&#x27;t start</h1><div class="meta"><span>Nov 9 – 16, 2026</span><span class="chip hw">hardware</span></div>
+
+<p class="intro">The RevD.8 main boards arrived assembled, and neither of them would start. Power was there, all the voltages were right, but the main chip just sat there.</p>
+<h2>Looking for the cause</h2>
+<p>I compared every measurement with the older board that works. Same design, same parts, same supplies, no bad joints on the pins. Two numbers stood out: two internal supplies of the chip were about 0.3 V too high, and the chip was holding itself in reset. If I forced it out of reset, it ran for a few seconds and stopped.</p>
+<p>Then I found a thread on the chip maker's forum with exactly the same numbers. Their fix was to re-solder the big pad under the chip. That pad is the chip's main ground. If it isn't soldered, part of the chip finds ground through a single pin instead, and its internal voltages float up by about 0.3 V. That's what I was seeing.</p>
+<h2>Why both boards</h2>
+<p>The new board has six layers instead of four, and I had connected the pad's vias solidly to four whole ground layers. During soldering, all that copper pulls the heat away, and the solder under the chip never fully melts. The old 4-layer board used "thermal relief" connections, small spokes instead of solid copper, and had no problem.</p>
+<figure><img src="../images/photos/reve1-thermal-relief.png" alt="Two diagrams of the nine vias under the chip: left connected solidly to the ground copper, right connected through four small spokes each"><figcaption>The vias under the chip. Left: solid to the ground layer (RevD). Right: thermal relief spokes (RevE.1).</figcaption></figure>
+<h2>Confirmed</h2>
+<p>I couldn't rework the chip myself, but I found someone who could, and got an X-ray of the result. After re-soldering the pad, the board's voltages matched the old board exactly and it booted straight into the system. That's the board in <a href="2026-11-16-first-full-prototype.html">the first fully working prototype</a>.</p>
+<h2>RevE.1</h2>
+<ul>
+<li>Ground connections back to thermal relief everywhere, including the vias under the chip.</li>
+<li>More solder paste under the chip (from about 62% to 70% of the pad).</li>
+<li>The factory is asked to watch the oven profile and X-ray the chip.</li>
+<li>A clock that keeps running while the console is off, plus a few fixes from an outside review.</li>
+</ul>
+<p>Two RevE.1 boards were ordered on Nov 11. A new automatic check now fails the design if any ground connection under the chip is solid again.</p>
+
+<div class="pn"><a href="2026-11-04-how-small.html"><small>← Older</small><b>How small it really is</b></a><a class="next" href="2026-11-15-lilvo-1-6.html"><small>Newer →</small><b>lilvo 1.5 to 1.6: a battery you can trust</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design. Visits are counted anonymously, with no cookies and no third-party trackers.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>// anonymous visit counting: no cookies; remembers only where you first came from (on your own device)
+(function(){try{var h=location.hostname;if(!/\.pages\.dev$|lilvo\./.test(h)||navigator.webdriver)return;
+var p=new URLSearchParams(location.search),src=p.get('utm_source'),camp=p.get('utm_campaign');
+if(!src&&document.referrer){try{var r=new URL(document.referrer).hostname.replace(/^www\.|^old\.|^m\./,'');
+if(r!==h){src=/reddit\./.test(r)?'reddit':/google\.|bing\.|duckduckgo\.|baidu\.|yahoo\./.test(r)?'search':/t\.co$|twitter\.|x\.com$/.test(r)?'x':/youtube\./.test(r)?'youtube':/github\./.test(r)?'github':/discord/.test(r)?'discord':r}}catch(e){}}
+var ss=null;try{ss=JSON.parse(sessionStorage.getItem('lv_s')||'null')}catch(e){}
+if(src){ss={src:src,camp:camp};try{sessionStorage.setItem('lv_s',JSON.stringify(ss))}catch(e){}}
+var cur=ss||{src:'direct',camp:null};
+try{if(!localStorage.getItem('lv_first'))localStorage.setItem('lv_first',JSON.stringify(cur))}catch(e){}
+var path=location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'')||'/';
+fetch('/api/hit',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({path:path,src:cur.src,camp:cur.camp}),keepalive:true}).catch(function(){});}catch(e){}})();
+// mobile menu
+(function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
+b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false')})});})();
+// play videos only while visible (saves data and battery on phones); respect reduced motion
+(function(){var vs=document.querySelectorAll('video:not([controls])');var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
+vs.forEach(function(v){io.observe(v)});})();
+</script></body></html>

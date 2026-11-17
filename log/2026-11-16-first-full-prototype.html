@@ -1,0 +1,53 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The first fully working one — lilvo DS Micro build log</title><meta name="description" content="New board, white shell, and for the first time everything works: both screens, touch, L / R, the lid, sound. Hand-assembled, but I can finally play on it like a real console."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Nov 16, 2026</div>
+<h1>The first fully working one</h1><div class="meta"><span>Nov 16, 2026</span><span class="chip hw">hardware</span><span class="chip ms">milestone</span></div>
+
+<p class="intro">I've had a working prototype in my pocket for a couple of weeks, but it wasn't complete: no L / R, no headphones. I didn't want to post until I had one where everything works. Today I do. It's hand-assembled and the shell is rough, but it's the first DS Micro I can just pick up and play.</p>
+<figure><video src="../images/photos/clip-v3-lid.mp4" poster="../images/photos/clip-v3-lid_poster.jpg" controls muted loop playsinline preload="metadata"></video><figcaption>Open the lid and it turns on. Close it and it saves and turns off.</figcaption></figure>
+<h2>What's in it</h2>
+<ul>
+<li><strong>The new main board</strong> (RevD.8). Getting it to boot took a week, see <a href="2026-11-11-revd8-boards.html">the board post</a>.</li>
+<li><strong>Working L and R.</strong> The first boards didn't have shoulder buttons at all.</li>
+<li><strong>The lid is read by the system.</strong> A magnet sensor tells the system the lid is closing, so it can save and quit the game first. The hardware cuts the power a few seconds later no matter what.</li>
+<li><strong>Headphones and speaker</strong>, both clean, no background hiss.</li>
+<li><strong>A white shell</strong>, sanded and fitted by hand.</li>
+</ul>
+<div class="pair"><figure><video src="../images/photos/clip-v3-ds.mp4" poster="../images/photos/clip-v3-ds_poster.jpg" controls muted loop playsinline preload="metadata"></video><figcaption>A DS game: a battle, then walking around. Moves can be tapped on the touch screen.</figcaption></figure><figure><video src="../images/photos/clip-v3-gba.mp4" poster="../images/photos/clip-v3-gba_poster.jpg" controls muted loop playsinline preload="metadata"></video><figcaption>A GBA game at 1:1 pixels, with save, load and hold-for-2× on the bottom screen.</figcaption></figure></div>
+<h2>Both screens are exactly 256 × 192</h2>
+<p>The screens are small smartwatch panels with a slightly higher resolution and rounded corners. The shell only shows a 256 × 192 window of each, and the system only lights that area. So DS games are shown pixel for pixel, like on the original.</p>
+<div class="pair"><figure><img src="../images/photos/v3-dsi.jpg" alt="The closed prototype next to a DSi"><figcaption>Next to a DSi. About the same thickness, everything else smaller.</figcaption></figure><figure><img src="../images/photos/v3-neon.jpg" alt="The settings menu in the NEON theme"><figcaption>Settings, in the NEON theme.</figcaption></figure></div>
+<h2>What's still not right</h2>
+<ul>
+<li><strong>Volume.</strong> Fine in a quiet room, too quiet anywhere else. I want to double the maximum volume in the next hardware round.</li>
+<li><strong>Headphone detection.</strong> The hardware sees the plug, but the system can't read it yet. For now Fn + L switches between speaker and headphones.</li>
+<li><strong>L / R feel.</strong> They work, but the travel is too short. The next shell gives them about 1.5 times more.</li>
+<li><strong>The shell.</strong> Visible lines, a hole next to the headphone jack that shouldn't be there, and a separate little hinge cap that I never liked.</li>
+</ul>
+<figure class="narrow center"><img src="../images/photos/v3-hinge.jpg" alt="The back of the prototype near the hinge, showing the separate hinge cap"><figcaption>The little cap on the hinge end. It's going away.</figcaption></figure>
+<h2>What's next</h2>
+<p>The next shell is about assembly. The whole hinge (both lid halves, the spring and the pin) drops in from the back and is held by one cover that snaps in, instead of a separate cap on each end. Start, Select and POWER stand a little taller, and L / R get more travel. Whether this ends up made in a factory or printed by people at home, it has to be easy to put together.</p>
+<div class="note">The next main board (RevE.1) was ordered on Nov 11 with the soldering fix described in the board post. It will go into the new shell.</div>
+
+<div class="pn"><a href="2026-11-15-lilvo-1-6.html"><small>← Older</small><b>lilvo 1.5 to 1.6: a battery you can trust</b></a><span></span></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design. Visits are counted anonymously, with no cookies and no third-party trackers.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>// anonymous visit counting: no cookies; remembers only where you first came from (on your own device)
+(function(){try{var h=location.hostname;if(!/\.pages\.dev$|lilvo\./.test(h)||navigator.webdriver)return;
+var p=new URLSearchParams(location.search),src=p.get('utm_source'),camp=p.get('utm_campaign');
+if(!src&&document.referrer){try{var r=new URL(document.referrer).hostname.replace(/^www\.|^old\.|^m\./,'');
+if(r!==h){src=/reddit\./.test(r)?'reddit':/google\.|bing\.|duckduckgo\.|baidu\.|yahoo\./.test(r)?'search':/t\.co$|twitter\.|x\.com$/.test(r)?'x':/youtube\./.test(r)?'youtube':/github\./.test(r)?'github':/discord/.test(r)?'discord':r}}catch(e){}}
+var ss=null;try{ss=JSON.parse(sessionStorage.getItem('lv_s')||'null')}catch(e){}
+if(src){ss={src:src,camp:camp};try{sessionStorage.setItem('lv_s',JSON.stringify(ss))}catch(e){}}
+var cur=ss||{src:'direct',camp:null};
+try{if(!localStorage.getItem('lv_first'))localStorage.setItem('lv_first',JSON.stringify(cur))}catch(e){}
+var path=location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'')||'/';
+fetch('/api/hit',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({path:path,src:cur.src,camp:cur.camp}),keepalive:true}).catch(function(){});}catch(e){}})();
+// mobile menu
+(function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
+b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false')})});})();
+// play videos only while visible (saves data and battery on phones); respect reduced motion
+(function(){var vs=document.querySelectorAll('video:not([controls])');var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
+vs.forEach(function(v){io.observe(v)});})();
+</script></body></html>

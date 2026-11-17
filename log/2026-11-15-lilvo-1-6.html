@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lilvo 1.5 to 1.6: a battery you can trust — lilvo DS Micro build log</title><meta name="description" content="I measured a full discharge and found the &quot;1000 mAh&quot; battery held about 590. The battery readout is now calibrated, learns your battery by itself, and the system updates in one safe step."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Nov 3 – 16, 2026</div>
+<h1>lilvo 1.5 to 1.6: a battery you can trust</h1><div class="meta"><span>Nov 3 – 16, 2026</span><span class="chip sw">software</span></div>
+
+<p class="intro">Most of the last two weeks went into things you don't see in a video: how full the battery really is, how charging behaves, and how updates get installed. None of it is exciting, but all of it matters if this is going to be a device people use every day.</p>
+<figure><img src="../images/photos/v3-battery.jpg" alt="The battery page on both screens: percentage and a 24-hour curve on top, voltage, current, power and temperature below"><figcaption>The battery page: level and time left on top, the live numbers below.</figcaption></figure>
+<h2>The battery was lying</h2>
+<p>I ran the console from full to empty while playing DS games and logged everything every 30 seconds. It lasted <strong>2 hours 53 minutes</strong>, at about <strong>0.7 W</strong> on average. Adding up the current showed the battery, sold as 1000 mAh, actually holds about <strong>590 mAh</strong>. The voltage curve was also much flatter than a textbook one, so the old readout showed 8% when about half was left.</p>
+<ul>
+<li>The percentage now uses the curve I measured, and 0% is where the console really runs out.</li>
+<li>It now <strong>learns the battery's real capacity</strong> by itself after one full charge or discharge, and keeps learning.</li>
+<li>Charging is shown properly: it fills up smoothly and reaches 100% when the charger is really done, instead of jumping.</li>
+<li>Charging while the console is off should now be counted too, using the power chip's own meter. Still checking that on the real device.</li>
+<li>The default charge current is gentler (about 0.6C) to go easy on small batteries.</li>
+</ul>
+<p>The current prototype has a new 1200 mAh battery. Its full test is next. For production, the battery has to come from a maker with a real datasheet.</p>
+<h2>USB-C chargers</h2>
+<p>Some USB-C chargers wouldn't start charging while the console was on. The cause: the USB data line was leaking a little voltage back onto the power line, and those chargers wait until the line is completely off before they turn on. The system now disconnects USB data when nothing is plugged in, and I want the boards for production to fix it in hardware.</p>
+<h2>Smaller things</h2>
+<ul>
+<li><strong>No stutter when scrolling.</strong> Cover art is now shrunk once and saved, in the background, so browsing a big library is smooth the first time too.</li>
+<li><strong>Progress bars</strong> for saving, loading and turning off now fill from left to right and actually finish.</li>
+<li><strong>Shortcuts</strong>: Fn + left / right for brightness, Fn + up / down for volume, Fn + L for speaker / headphones, with a small bar on the top screen.</li>
+<li><strong>Button test</strong> lights each button while you hold it.</li>
+</ul>
+<h2>Updates in one safe step</h2>
+<p>Once these are in people's hands, everyone will be on a different version. So from 1.6 on, an update is one complete package that brings any older version straight to the latest. You drop it on the System page of the web manager. Saves are carried over without being copied, and if the new version fails to reach the home screen twice in a row, the console goes back to the old one by itself on the next start.</p>
+<figure><img src="../images/photos/v3-web.jpg" alt="The web game manager in a desktop browser, listing DS games with their saves"><figcaption>The web manager, served by the console itself over USB at lilvo.local.</figcaption></figure>
+
+<div class="pn"><a href="2026-11-11-revd8-boards.html"><small>← Older</small><b>Two new boards that wouldn&#x27;t start</b></a><a class="next" href="2026-11-16-first-full-prototype.html"><small>Newer →</small><b>The first fully working one</b></a></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design. Visits are counted anonymously, with no cookies and no third-party trackers.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>// anonymous visit counting: no cookies; remembers only where you first came from (on your own device)
+(function(){try{var h=location.hostname;if(!/\.pages\.dev$|lilvo\./.test(h)||navigator.webdriver)return;
+var p=new URLSearchParams(location.search),src=p.get('utm_source'),camp=p.get('utm_campaign');
+if(!src&&document.referrer){try{var r=new URL(document.referrer).hostname.replace(/^www\.|^old\.|^m\./,'');
+if(r!==h){src=/reddit\./.test(r)?'reddit':/google\.|bing\.|duckduckgo\.|baidu\.|yahoo\./.test(r)?'search':/t\.co$|twitter\.|x\.com$/.test(r)?'x':/youtube\./.test(r)?'youtube':/github\./.test(r)?'github':/discord/.test(r)?'discord':r}}catch(e){}}
+var ss=null;try{ss=JSON.parse(sessionStorage.getItem('lv_s')||'null')}catch(e){}
+if(src){ss={src:src,camp:camp};try{sessionStorage.setItem('lv_s',JSON.stringify(ss))}catch(e){}}
+var cur=ss||{src:'direct',camp:null};
+try{if(!localStorage.getItem('lv_first'))localStorage.setItem('lv_first',JSON.stringify(cur))}catch(e){}
+var path=location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'')||'/';
+fetch('/api/hit',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({path:path,src:cur.src,camp:cur.camp}),keepalive:true}).catch(function(){});}catch(e){}})();
+// mobile menu
+(function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
+b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false')})});})();
+// play videos only while visible (saves data and battery on phones); respect reduced motion
+(function(){var vs=document.querySelectorAll('video:not([controls])');var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
+vs.forEach(function(v){io.observe(v)});})();
+</script></body></html>
