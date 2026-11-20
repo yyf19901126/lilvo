@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lining up the picture with the window — lilvo DS Micro build log</title><meta name="description" content="A new setting moves the picture on each screen by up to 4 pixels, so it sits right in the middle of the window in the shell. Update 82 also fixes a slowdown the first version caused."><link rel="icon" href="../images/lilvo.svg"><link rel="stylesheet" href="../style.css"></head><body><nav><div class="wrap"><a class="brand" href="../index.html"><img src="../images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+<ul><li><a href="../index.html#device">Device</a></li><li><a href="../index.html#system">System</a></li><li><a href="../index.html#themes">Themes</a></li><li><a href="../log.html" class="on">Build log</a></li><li><a href="../index.html#follow">Follow</a></li></ul></div></nav>
+<main class="article"><div class="crumbs"><a href="../log.html">Build log</a> / Nov 20, 2026</div>
+<h1>Lining up the picture with the window</h1><div class="meta"><span>Nov 20, 2026</span><span class="chip sw">software</span></div>
+
+<p class="intro">If you watched the GBA part of my last video, you may have noticed the black border around the picture wasn't even on all four sides. That's the shell window and the screen not lining up perfectly, and it happens a little on every hand-built unit. Now it can be fixed in the settings.</p>
+<h2>Why it's possible</h2>
+<p>The screens are small panels of 296 × 240 pixels, but DS Micro only ever lights the middle 256 × 192, the same as a DS. That leaves 20 spare pixels on the left and right and 24 above and below. So the picture doesn't have to sit in the exact middle of the panel. It can move a few pixels to sit in the middle of the window instead.</p>
+<figure><svg viewBox="0 0 640 330" width="100%" role="img" aria-label="The panel is 296 by 240 pixels; only the middle 256 by 192 is used, leaving 20 pixels left and right and 24 above and below, so the picture can move up to 4 pixels each way" style="display:block;background:#14161A;border-radius:12px;font-family:Nunito,sans-serif">
+<rect x="172" y="45" width="296" height="240" rx="40" fill="#1A1C21" stroke="#3A3D47" stroke-width="2"/>
+<rect x="188" y="61" width="264" height="208" fill="none" stroke="#FF8A3D" stroke-width="1.5" stroke-dasharray="4 4" opacity=".55"/>
+<rect x="192" y="69" width="256" height="192" fill="#26303f" stroke="#F3F1EC" stroke-width="2"/>
+<text x="320" y="160" fill="#F3F1EC" font-size="17" font-weight="800" text-anchor="middle">256 × 192</text>
+<text x="320" y="182" fill="#A3A3AC" font-size="13" text-anchor="middle">what you see</text>
+<text x="320" y="34" fill="#A3A3AC" font-size="13" text-anchor="middle">panel: 296 × 240, rounded corners</text>
+<text x="182" y="168" fill="#A3A3AC" font-size="12" text-anchor="end">20 px</text>
+<text x="320" y="62" fill="#A3A3AC" font-size="12" text-anchor="middle">24 px</text>
+<text x="490" y="120" fill="#FF8A3D" font-size="13">dashed: how far</text>
+<text x="490" y="138" fill="#FF8A3D" font-size="13">it can move</text>
+<text x="490" y="156" fill="#FF8A3D" font-size="13">(±4 px each way)</text>
+</svg><figcaption>Each screen panel is bigger than the picture. The spare pixels around it are what make the nudge possible.</figcaption></figure>
+<p>The drawings already said the visible area sits about 0.4 mm off-centre in the screen module, roughly 3 pixels. I'd meant to correct that in software since October. This finally does it, and handles assembly differences on top.</p>
+<h2>How it works</h2>
+<div class="pair"><figure><img class="px" src="../images/ui-screenpos-menu.png" alt="The settings list with Screen position highlighted"><figcaption>Settings → Screen position.</figcaption></figure><figure><img class="px" src="../images/ui-screenpos.png" alt="The screen position page: a test pattern with a 1-pixel white border, corner marks and X / Y values"><figcaption>The test pattern. Here the top screen is moved 2 right and 1 down.</figcaption></figure></div>
+<ul>
+<li>Each screen shows a test pattern: a 1-pixel white line around the edge, corner marks and centre ticks.</li>
+<li>The D-pad moves the picture 1 pixel at a time, up to 4 in each direction, until the white line shows evenly on all four sides.</li>
+<li>A switches between the top and bottom screen, Y puts it back in the middle, B is done.</li>
+<li>It saves right away and applies everywhere: home screen, menus and games.</li>
+<li>Touch follows the picture, so tapping still lands where you aim.</li>
+<li>Moving only redraws the few pixels at the edge, so nothing flickers while you adjust.</li>
+</ul>
+<p>Going the full 4 pixels both ways at once can clip a few pixels off one corner, because the panel's corners are rounded. In practice you only need 1 to 3.</p>
+<h2>Update 81 broke something, 82 fixes it</h2>
+<p>The first version (update 81) worked, but after moving a screen, games got much slower. The screens send a signal at a set line of each refresh so the console knows when it's safe to draw without tearing. When moving the picture, 81 also moved that line, and after that the signal stopped arriving the way the system expected. Every frame waited for it until it gave up, and games dropped to about 25 frames per second.</p>
+<p>Update 82 leaves that line exactly where it was at start-up and only moves the picture. A 4-pixel difference makes no difference to tearing, and the frame rate stays where it was.</p>
+<div class="note">Next: once I've lined up a few units by hand, I'll see if there's a good default to ship with, so most people never need this page.</div>
+
+<div class="pn"><a href="2026-11-16-first-full-prototype.html"><small>← Older</small><b>The first fully working one</b></a><span></span></div></main><footer><div class="wrap"><p>lilvo DS Micro is in development and not available yet. The goal is a production run. Images marked "Render" show the current design. Visits are counted anonymously, with no cookies and no third-party trackers.</p><p>Not affiliated with or endorsed by Nintendo or any other console maker. All trademarks belong to their owners. © 2026 lilvo</p></div></footer><script>// anonymous visit counting: no cookies; remembers only where you first came from (on your own device)
+(function(){try{var h=location.hostname;if(!/\.pages\.dev$|lilvo\./.test(h)||navigator.webdriver)return;
+var p=new URLSearchParams(location.search),src=p.get('utm_source'),camp=p.get('utm_campaign');
+if(!src&&document.referrer){try{var r=new URL(document.referrer).hostname.replace(/^www\.|^old\.|^m\./,'');
+if(r!==h){src=/reddit\./.test(r)?'reddit':/google\.|bing\.|duckduckgo\.|baidu\.|yahoo\./.test(r)?'search':/t\.co$|twitter\.|x\.com$/.test(r)?'x':/youtube\./.test(r)?'youtube':/github\./.test(r)?'github':/discord/.test(r)?'discord':r}}catch(e){}}
+var ss=null;try{ss=JSON.parse(sessionStorage.getItem('lv_s')||'null')}catch(e){}
+if(src){ss={src:src,camp:camp};try{sessionStorage.setItem('lv_s',JSON.stringify(ss))}catch(e){}}
+var cur=ss||{src:'direct',camp:null};
+try{if(!localStorage.getItem('lv_first'))localStorage.setItem('lv_first',JSON.stringify(cur))}catch(e){}
+var path=location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'')||'/';
+fetch('/api/hit',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({path:path,src:cur.src,camp:cur.camp}),keepalive:true}).catch(function(){});}catch(e){}})();
+// mobile menu
+(function(){var b=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(!b)return;
+b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false')})});})();
+// play videos only while visible (saves data and battery on phones); respect reduced motion
+(function(){var vs=document.querySelectorAll('video:not([controls])');var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
+vs.forEach(function(v){io.observe(v)});})();
+</script></body></html>
