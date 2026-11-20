@@ -64,6 +64,15 @@ nav ul a:hover{color:var(--text);text-decoration:none}
 .btn:hover{border-color:var(--acc);color:var(--acc)}
 .btn.acc{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
 .btn.acc:hover{filter:brightness(1.06);color:var(--accfg)}
+.yt{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;border-radius:var(--r);overflow:hidden;background:#000;cursor:pointer;margin-top:28px}
+.yt img{width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .15s}
+.yt:hover img{opacity:1}
+.yt .play{position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,.45)}
+.yt .play:after{content:"";margin-left:6px;border-style:solid;border-width:15px 0 15px 25px;border-color:transparent transparent transparent var(--accfg)}
+.yt .dur{position:absolute;right:12px;bottom:12px;font-size:13px;font-weight:800;padding:4px 8px;border-radius:6px;background:rgba(14,15,18,.8);color:var(--text)}
+.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt-meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:14px;font-size:15px;color:var(--muted)}
+.yt-meta a{font-weight:800}
 .shot{position:relative;border-radius:var(--r);overflow:hidden;background:var(--surf)}
 .shot .tag{position:absolute;left:12px;top:12px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:6px;background:rgba(14,15,18,.72);color:var(--text2)}
 .shot .tag.real{background:var(--acc);color:var(--accfg)}
@@ -322,6 +331,7 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     <a class="brand" href="#top"><img src="images/lilvo.svg" alt="lilvo"><span>DS Micro</span></a>
     <button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <ul>
+      <li><a href="#video">Video</a></li>
       <li><a href="#games">Games</a></li>
       <li><a href="#device">Device</a></li>
       <li><a href="#system">System</a></li>
@@ -335,15 +345,15 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 <header class="hero" id="top">
   <div class="wrap">
-    <div class="about"><b>What this page is:</b> my project log for <b>lilvo DS Micro</b>, a tiny dual-screen handheld I'm building on my own. It's here so anyone following along can see what it is, how it works and where it's at. It isn't available yet; the goal is a production run, and I'm doing everything I can to get there. <a href="log/2026-11-20-screen-position.html">Latest update: Nov 20 →</a></div>
+    <div class="about"><b>What this page is:</b> my project log for <b>lilvo DS Micro</b>, a tiny dual-screen handheld I'm building on my own. It's here so anyone following along can see what it is, how it works and where it's at. It isn't available yet; the goal is a production run, and I'm doing everything I can to get there. <a href="log/2026-11-20-screen-position.html">Latest update: Nov 20 →</a> · <a href="#video"><b>▶ Watch the video</b></a></div>
     <div class="hero-grid">
       <div>
         <span class="pill"><i></i>Prototype · working towards production</span>
         <h1>A dual-screen handheld <b>the size of a card.</b></h1>
         <p class="lead">lilvo DS Micro is a clamshell with two screens, real buttons and a real hinge, 85 × 46 × 18 mm closed. It runs DS and 11 classic consoles on its own little OS. I post every step here, the mistakes included.</p>
         <div class="links">
-          <a class="btn acc" href="log.html">Read the build log</a>
-          <a class="btn" href="#follow">Follow along</a>
+          <a class="btn acc" href="#video">▶ Watch the video</a>
+          <a class="btn" href="log.html">Read the build log</a>
         </div>
       </div>
       <figure class="shot hero-shot" style="margin:0">
@@ -359,6 +369,19 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     </div>
   </div>
 </header>
+
+<section id="video">
+  <div class="wrap">
+    <div class="label">Video · Nov 2026</div>
+    <h2>See it working.</h2>
+    <p class="lead">A full walkthrough of the first fully working prototype: how small it is, the lilvo system, opening and closing the lid, the web game manager, DS and GBA gameplay, and what still needs fixing. English and Chinese subtitles.</p>
+    <button class="yt" type="button" id="yt" aria-label="Play the video">
+      <img src="images/photos/yt-poster.jpg" alt="The white DS Micro prototype in two hands, playing a DS game" width="1280" height="720">
+      <span class="play"></span><span class="dur">34 min</span>
+    </button>
+    <div class="yt-meta"><a href="https://youtu.be/mrKnSnykAq8" rel="noopener" target="_blank">Watch on YouTube →</a><span>The player loads from YouTube when you press play.</span></div>
+  </div>
+</section>
 
 <section>
   <div class="wrap">
@@ -595,7 +618,7 @@ nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
         <div class="label">Follow along</div>
         <h2>Get a note when something happens.</h2>
         <p class="lead">An email when there's real progress: new boards, new photos, the open-source release. Nothing else.</p>
-        <div class="links"><a class="btn" href="https://www.reddit.com/r/SBCGaming/" rel="noopener">r/SBCGaming</a><!-- TODO: link to my Reddit posts / Discord / GitHub --></div>
+        <div class="links"><a class="btn" href="https://youtu.be/mrKnSnykAq8" rel="noopener" target="_blank">YouTube</a><a class="btn" href="https://www.reddit.com/r/SBCGaming/" rel="noopener">r/SBCGaming</a><!-- TODO: link to my Reddit posts / Discord / GitHub --></div>
       </div>
       <!-- TODO: connect to an email service. Preview only for now. -->
       <form id="f" novalidate>
@@ -667,6 +690,12 @@ n.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',functi
 if(still)return;if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.play&&v.play().catch(function(){})});return}
 var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.25});
 vs.forEach(function(v){io.observe(v)});})();
+</script>
+<script>
+(function(){var b=document.getElementById('yt');if(!b)return;b.addEventListener('click',function(){
+var f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/mrKnSnykAq8?autoplay=1&rel=0&cc_load_policy=1';
+f.title='DS Micro November 2026 update';f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;
+b.innerHTML='';b.appendChild(f);b.style.cursor='default';},{once:true});})();
 </script>
 </body>
 </html>
